@@ -1,0 +1,10 @@
+services:
+  anomaly-demo:
+    build:
+      context: .
+      dockerfile: docker/anomaly-demo/Dockerfile
+    volumes:
+      - ./artifacts:/app/artifacts
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: ["python", "src/ml/anomaly_demo.py", "--generate", "--threshold", "0.75"]

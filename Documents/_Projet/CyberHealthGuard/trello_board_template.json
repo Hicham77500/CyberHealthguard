@@ -1,0 +1,27 @@
+{
+  "name": "CyberHealthGuard",
+  "lists": [
+    {
+      "name": "Backlog",
+      "cards": [
+        {"name": "Benchmark Zero Trust API", "desc": "Comparer AWS Cognito vs Auth0.", "labels": ["Security"]}
+      ]
+    },
+    {
+      "name": "ToDo",
+      "cards": [
+        {"name": "CHG-1 Dockeriser API", "desc": "Créer Dockerfile + pipeline.", "due": "2026-03-20"}
+      ]
+    },
+    {
+      "name": "In Progress",
+      "cards": [
+        {"name": "CHG-2 IsolationForest PoC", "desc": "Voir src/ml/anomaly_demo.py.", "due": "2026-03-22"}
+      ]
+    },
+    {
+      "name": "Done",
+      "cards": []
+    }
+  ]
+}

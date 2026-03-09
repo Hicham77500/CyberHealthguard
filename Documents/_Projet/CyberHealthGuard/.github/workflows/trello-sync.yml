@@ -1,0 +1,37 @@
+name: Trello Sync
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+jobs:
+  sync:
+    if: ${{ secrets.TRELLO_KEY != '' && secrets.TRELLO_TOKEN != '' && secrets.TRELLO_BOARD_ID != '' }}
+    runs-on: ubuntu-22.04
+    env:
+      TRELLO_KEY: ${{ secrets.TRELLO_KEY }}
+      TRELLO_TOKEN: ${{ secrets.TRELLO_TOKEN }}
+      TRELLO_BOARD_ID: ${{ secrets.TRELLO_BOARD_ID }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Update TRELLO_SYNC.md
+        run: python scripts/trello_update.py --board-id "$TRELLO_BOARD_ID"
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "chore(trello): sync board"
+          branch: automation/trello-sync
+          title: "Auto sync Trello board"
+          body: |
+            Automated update from Trello board → TRELLO_SYNC.md.
+            - Workflow: trello-sync.yml
+          labels: trello-sync, automation

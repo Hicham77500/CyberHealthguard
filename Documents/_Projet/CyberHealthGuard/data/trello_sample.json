@@ -1,0 +1,44 @@
+{
+  "lists": [
+    {"id": "list_backlog", "name": "Backlog", "closed": false},
+    {"id": "list_todo", "name": "ToDo", "closed": false},
+    {"id": "list_inprogress", "name": "In Progress", "closed": false},
+    {"id": "list_done", "name": "Done", "closed": false}
+  ],
+  "members": [
+    {"id": "member_alice", "username": "alice"},
+    {"id": "member_bob", "username": "bob"}
+  ],
+  "cards": [
+    {
+      "idShort": 1,
+      "shortLink": "abc123",
+      "name": "Dockeriser l'API Zero Trust",
+      "desc": "https://github.com/org/CyberHealthGuard/issues/1",
+      "due": "2026-03-20T10:00:00.000Z",
+      "dueComplete": false,
+      "idList": "list_inprogress",
+      "closed": false,
+      "idMembers": ["member_alice"],
+      "labels": [{"name": "Security"}],
+      "attachments": [
+        {"url": "https://github.com/org/CyberHealthGuard/issues/1", "name": "Issue"}
+      ]
+    },
+    {
+      "idShort": 2,
+      "shortLink": "def456",
+      "name": "IsolationForest Demo",
+      "desc": "Voir src/ml/anomaly_demo.py",
+      "due": "2026-03-22T18:00:00.000Z",
+      "dueComplete": false,
+      "idList": "list_todo",
+      "closed": false,
+      "idMembers": ["member_bob"],
+      "labels": [{"name": "ML"}],
+      "attachments": [
+        {"url": "https://github.com/org/CyberHealthGuard/issues/2", "name": "Issue"}
+      ]
+    }
+  ]
+}

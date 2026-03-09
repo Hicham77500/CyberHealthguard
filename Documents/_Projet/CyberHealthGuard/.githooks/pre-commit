@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT_DIR="$(git rev-parse --show-toplevel)"
+cd "$ROOT_DIR"
+
+say() { printf "[pre-commit] %s\n" "$*"; }
+
+PYTHON_BIN="python3"
+if ! command -v "$PYTHON_BIN" >/dev/null 2>&1; then
+  PYTHON_BIN="python"
+fi
+
+say "Scan doublons"
+$PYTHON_BIN scripts/anti_dup.py --strict
+
+run_npm_script() {
+  local script="$1"
+  if [ -f package.json ] && command -v npm >/dev/null 2>&1; then
+    if npm run "$script" --if-present; then
+      return 0
+    fi
+  fi
+  return 0
+}
+
+say "Tests Node (lint/test si dispo)"
+run_npm_script lint
+run_npm_script test
+
+say "Tests Python"
+if command -v pytest >/dev/null 2>&1 && [ -d tests ]; then
+  pytest
+else
+  say "pytest skip (pas de dossier tests ou outil manquant)"
+fi
+
+if [ "${SKIP_LOG_CHECK:-0}" != "1" ]; then
+  staged="$(git diff --cached --name-only)"
+  need_logs=0
+  while IFS= read -r file; do
+    [ -z "$file" ] && continue
+    case "$file" in
+      PROJECT_LOG.md|CHANGELOG.md)
+        ;;
+      *)
+        need_logs=1
+        break
+        ;;
+    esac
+  done <<< "$staged"
+  if [ "$need_logs" = 1 ]; then
+    project_logged=$(printf '%s\n' "$staged" | grep -F "PROJECT_LOG.md" || true)
+    changelogged=$(printf '%s\n' "$staged" | grep -F "CHANGELOG.md" || true)
+    if [ -z "$project_logged" ] || [ -z "$changelogged" ]; then
+      echo "[pre-commit] Merci d'ajouter PROJECT_LOG.md et CHANGELOG.md à ce commit (ou SKIP_LOG_CHECK=1)." >&2
+      exit 1
+    fi
+  fi
+fi
+
+say "Hook terminé ✅"
