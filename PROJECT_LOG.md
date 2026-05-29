@@ -20,3 +20,7 @@ Tracer toutes les décisions produit/sécurité/tech. Ajouter une ligne par déc
 | 2026-05-29 | src/validator/dataset_validator.py | CHG-022 — Implémentation Dataset Validator (schéma, types, plages, doublons) | Adopté |
 | 2026-05-29 | src/features/feature_engineering.py | CHG-023 — Pipeline Feature Engineering (11 features temporelles/catégorielles/comportementales) | Adopté |
 | 2026-05-29 | src/ml/anomaly_demo.py | Auto-détection colonnes features (rétro-compatible --generate) | Adopté |
+| 2026-05-29 | src/scoring/risk_scoring.py | CHG-024 — Risk Scoring Engine (score 0-100, 4 niveaux Low/Medium/High/Critical) | Adopté |
+| 2026-05-29 | src/alerts/alert_manager.py | CHG-025 — Alert Manager (alertes JSON structurées, 6 types d'anomalies) | Adopté |
+| 2026-05-29 | src/tracking/experiment_tracker.py | CHG-026 — Experiment Tracker JSON (precision/recall/F1/AUC-ROC) | Adopté |
+| 2026-05-29 | data/trello_sample.json + TRELLO_SYNC.md | Mise à jour tickets CHG-021–028, sync pipeline réel | Adopté |

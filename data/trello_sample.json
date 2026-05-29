@@ -1,43 +1,190 @@
 {
   "lists": [
-    {"id": "list_backlog", "name": "Backlog", "closed": false},
-    {"id": "list_todo", "name": "ToDo", "closed": false},
-    {"id": "list_inprogress", "name": "In Progress", "closed": false},
-    {"id": "list_done", "name": "Done", "closed": false}
+    {"id": "list_backlog",    "name": "Backlog",      "closed": false},
+    {"id": "list_todo",       "name": "À Faire",      "closed": false},
+    {"id": "list_inprogress", "name": "In Progress",  "closed": false},
+    {"id": "list_review",     "name": "En Revue",     "closed": false},
+    {"id": "list_done",       "name": "Terminé",      "closed": false}
   ],
   "members": [
     {"id": "member_alice", "username": "alice"},
-    {"id": "member_bob", "username": "bob"}
+    {"id": "member_bob",   "username": "bob"}
   ],
   "cards": [
     {
-      "idShort": 1,
-      "shortLink": "abc123",
-      "name": "Dockeriser l'API Zero Trust",
-      "desc": "https://github.com/org/CyberHealthGuard/issues/1",
-      "due": "2026-03-20T10:00:00.000Z",
-      "dueComplete": false,
-      "idList": "list_inprogress",
+      "idShort": 21,
+      "shortLink": "chg021",
+      "name": "CHG-021 — Log Collector (log_generator.py)",
+      "desc": "Générateur JSONL synthétique 19 types d'événements, 8 anomalies santé labellisées.\nhttps://github.com/Hicham77500/CyberHealthguard/commit/648a222",
+      "due": "2026-03-09T18:00:00.000Z",
+      "dueComplete": true,
+      "idList": "list_done",
       "closed": false,
       "idMembers": ["member_alice"],
-      "labels": [{"name": "Security"}],
+      "labels": [{"name": "Collector"}, {"name": "Sprint-2"}],
       "attachments": [
-        {"url": "https://github.com/org/CyberHealthGuard/issues/1", "name": "Issue"}
+        {"url": "https://github.com/Hicham77500/CyberHealthguard/commit/648a222", "name": "Commit"}
       ]
     },
     {
-      "idShort": 2,
-      "shortLink": "def456",
-      "name": "IsolationForest Demo",
-      "desc": "Voir src/ml/anomaly_demo.py",
-      "due": "2026-03-22T18:00:00.000Z",
+      "idShort": 22,
+      "shortLink": "chg022",
+      "name": "CHG-022 — Dataset Validator (dataset_validator.py)",
+      "desc": "Validation JSONL : schéma, types, severity [1-5], ISO 8601, doublons event_id, rapport JSON.\nhttps://github.com/Hicham77500/CyberHealthguard/commit/08eaedf",
+      "due": "2026-05-29T18:00:00.000Z",
+      "dueComplete": true,
+      "idList": "list_done",
+      "closed": false,
+      "idMembers": ["member_alice"],
+      "labels": [{"name": "Validator"}, {"name": "Sprint-2"}],
+      "attachments": [
+        {"url": "https://github.com/Hicham77500/CyberHealthguard/commit/08eaedf", "name": "Commit"}
+      ]
+    },
+    {
+      "idShort": 23,
+      "shortLink": "chg023",
+      "name": "CHG-023 — Feature Engineering Pipeline (feature_engineering.py)",
+      "desc": "11 features temporelles/risk scores/UEBA. Sortie CSV compatible IsolationForest.\nhttps://github.com/Hicham77500/CyberHealthguard/commit/08eaedf",
+      "due": "2026-05-29T18:00:00.000Z",
+      "dueComplete": true,
+      "idList": "list_done",
+      "closed": false,
+      "idMembers": ["member_bob"],
+      "labels": [{"name": "ML"}, {"name": "Sprint-2"}],
+      "attachments": [
+        {"url": "https://github.com/Hicham77500/CyberHealthguard/commit/08eaedf", "name": "Commit"}
+      ]
+    },
+    {
+      "idShort": 24,
+      "shortLink": "chg024",
+      "name": "CHG-024 — Risk Scoring Engine (risk_scoring.py)",
+      "desc": "Score composite 0-100 (Low/Medium/High/Critical) basé sur 6 facteurs pondérés.\nhttps://github.com/Hicham77500/CyberHealthguard",
+      "due": "2026-05-29T20:00:00.000Z",
+      "dueComplete": true,
+      "idList": "list_done",
+      "closed": false,
+      "idMembers": ["member_alice"],
+      "labels": [{"name": "Scoring"}, {"name": "Sprint-3"}],
+      "attachments": [
+        {"url": "https://github.com/Hicham77500/CyberHealthguard", "name": "Repo"}
+      ]
+    },
+    {
+      "idShort": 25,
+      "shortLink": "chg025",
+      "name": "CHG-025 — Alert Manager (alert_manager.py)",
+      "desc": "Alertes JSON structurées (alert_id, severity, alert_type, risk_score). 6 types d'anomalies inférés.\nhttps://github.com/Hicham77500/CyberHealthguard",
+      "due": "2026-05-29T20:00:00.000Z",
+      "dueComplete": true,
+      "idList": "list_done",
+      "closed": false,
+      "idMembers": ["member_bob"],
+      "labels": [{"name": "Alerting"}, {"name": "Sprint-3"}],
+      "attachments": [
+        {"url": "https://github.com/Hicham77500/CyberHealthguard", "name": "Repo"}
+      ]
+    },
+    {
+      "idShort": 26,
+      "shortLink": "chg026",
+      "name": "CHG-026 — Experiment Tracker (experiment_tracker.py)",
+      "desc": "Suivi JSON des runs ML : params, métriques (precision/recall/F1/AUC-ROC), dataset stats.\nhttps://github.com/Hicham77500/CyberHealthguard",
+      "due": "2026-05-29T20:00:00.000Z",
+      "dueComplete": true,
+      "idList": "list_done",
+      "closed": false,
+      "idMembers": ["member_alice"],
+      "labels": [{"name": "MLOps"}, {"name": "Sprint-3"}],
+      "attachments": [
+        {"url": "https://github.com/Hicham77500/CyberHealthguard", "name": "Repo"}
+      ]
+    },
+    {
+      "idShort": 27,
+      "shortLink": "chg027",
+      "name": "CHG-027 — Dashboard / Reporting (Sprint 4)",
+      "desc": "Interface de restitution des alertes et métriques pour le jury mémoire.",
+      "due": null,
+      "dueComplete": false,
+      "idList": "list_backlog",
+      "closed": false,
+      "idMembers": [],
+      "labels": [{"name": "Dashboard"}, {"name": "Sprint-4"}],
+      "attachments": []
+    },
+    {
+      "idShort": 28,
+      "shortLink": "chg028",
+      "name": "CHG-028 — Tests pytest pipeline complet (Sprint 4)",
+      "desc": "Tests unitaires validator + feature_eng + scoring + alerts.",
+      "due": null,
+      "dueComplete": false,
+      "idList": "list_backlog",
+      "closed": false,
+      "idMembers": [],
+      "labels": [{"name": "Tests"}, {"name": "Sprint-4"}],
+      "attachments": []
+    },
+    {
+      "idShort": 1,
+      "shortLink": "abc123",
+      "name": "CHG-001 — Dockeriser l'API Zero Trust",
+      "desc": "https://github.com/Hicham77500/CyberHealthguard/issues/1",
+      "due": "2026-06-15T10:00:00.000Z",
       "dueComplete": false,
       "idList": "list_todo",
       "closed": false,
-      "idMembers": ["member_bob"],
-      "labels": [{"name": "ML"}],
+      "idMembers": ["member_alice"],
+      "labels": [{"name": "Security"}, {"name": "Sprint-4"}],
       "attachments": [
-        {"url": "https://github.com/org/CyberHealthGuard/issues/2", "name": "Issue"}
+        {"url": "https://github.com/Hicham77500/CyberHealthguard/issues/1", "name": "Issue"}
+      ]
+    },
+    {
+      "idShort": 10,
+      "shortLink": "ghi789",
+      "name": "CHG-10 - Bootstraper le repo Zero Trust",
+      "desc": "Initial commit + README + hooks.\nhttps://github.com/org/CyberHealthGuard/issues/10",
+      "due": "2026-03-05T09:00:00.000Z",
+      "dueComplete": true,
+      "idList": "list_done",
+      "closed": false,
+      "idMembers": ["member_alice"],
+      "labels": [{"name": "Foundation"}],
+      "attachments": [
+        {"url": "https://github.com/org/CyberHealthGuard/issues/10", "name": "Issue"}
+      ]
+    },
+    {
+      "idShort": 11,
+      "shortLink": "jkl012",
+      "name": "CHG-11 - Automatiser sync Trello",
+      "desc": "Workflow trello-sync + script trello_update.py.\nhttps://github.com/org/CyberHealthGuard/issues/11",
+      "due": "2026-03-08T12:00:00.000Z",
+      "dueComplete": true,
+      "idList": "list_done",
+      "closed": false,
+      "idMembers": ["member_bob"],
+      "labels": [{"name": "Automation"}],
+      "attachments": [
+        {"url": "https://github.com/org/CyberHealthGuard/issues/11", "name": "Issue"}
+      ]
+    },
+    {
+      "idShort": 12,
+      "shortLink": "mno345",
+      "name": "CHG-12 - Corriger CI (Node cache)",
+      "desc": "Fix workflows CI sans lockfile.\nhttps://github.com/org/CyberHealthGuard/issues/12",
+      "due": "2026-03-09T08:00:00.000Z",
+      "dueComplete": true,
+      "idList": "list_done",
+      "closed": false,
+      "idMembers": ["member_alice"],
+      "labels": [{"name": "CI"}],
+      "attachments": [
+        {"url": "https://github.com/org/CyberHealthGuard/issues/12", "name": "Issue"}
       ]
     }
   ]
