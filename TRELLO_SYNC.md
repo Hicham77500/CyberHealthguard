@@ -1,6 +1,6 @@
 # TRELLO_SYNC
 
-> Généré automatiquement le 2026-05-29 13:51:56Z via `scripts/trello_update.py`.
+> Généré automatiquement le 2026-05-29 15:27:55Z via `scripts/trello_update.py`.
 
 ## Résumé rapide
 | Liste | Tickets |
@@ -9,8 +9,8 @@
 | À Faire | 1 |
 | In Progress | 0 |
 | En Revue | 0 |
-| Terminé | 16 |
-| Total | 17 |
+| Terminé | 18 |
+| Total | 19 |
 
 ## Backlog
 
@@ -56,6 +56,8 @@
 | CHG-31 | CHG-031 — Ransomware Detector (ransomware_detector.py) | alice | 2026-06-01T18:00:00.000Z | 🟢 | - | Detection, Sprint-6 |
 | CHG-32 | CHG-032 — Travel Detector (travel_detector.py) | alice | 2026-06-01T18:00:00.000Z | 🟢 | - | Detection, Sprint-6 |
 | CHG-33 | CHG-033 — Lateral Movement Detector (lateral_movement.py) | bob | 2026-06-01T18:00:00.000Z | 🟢 | - | Detection, Sprint-6 |
+| CHG-34 | CHG-034 — Behavioral Baseline UEBA (behavioral_baseline.py) | alice | 2026-06-01T20:00:00.000Z | 🟢 | - | UEBA, Sprint-7 |
+| CHG-35 | CHG-035 — Feature Engineering UEBA (extension) | bob | 2026-06-01T20:00:00.000Z | 🟢 | - | UEBA, Sprint-7 |
 
 ## Procédure
 1. Exporter le board en JSON (ou utiliser l'API avec `--board-id`).

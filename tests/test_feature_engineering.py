@@ -177,3 +177,89 @@ def test_user_failed_login_count():
     ]
     df = engineer_features(events)
     assert df["user_failed_login_count"].iloc[0] == 2
+
+
+# ---------------------------------------------------------------------------
+# CHG-035 — New UEBA features
+# ---------------------------------------------------------------------------
+
+def test_cross_department_access_outside_role():
+    # receptionist (expected: administration) accessing oncology → 1
+    e = _make_event(user_role="receptionist", department="oncology")
+    df = engineer_features([e])
+    assert df["cross_department_access"].iloc[0] == 1
+
+
+def test_cross_department_access_within_role():
+    # receptionist accessing administration → 0
+    e = _make_event(user_role="receptionist", department="administration")
+    df = engineer_features([e])
+    assert df["cross_department_access"].iloc[0] == 0
+
+
+def test_cross_department_access_unknown_role():
+    # unknown role → expected_depts is empty → 0 (cannot determine)
+    e = _make_event(user_role="unknown_role", department="oncology")
+    df = engineer_features([e])
+    assert df["cross_department_access"].iloc[0] == 0
+
+
+def test_cross_department_access_in_feature_cols():
+    assert "cross_department_access" in FEATURE_COLS
+
+
+def test_velocity_score_column_exists():
+    df = engineer_features([_make_event()])
+    assert "velocity_score" in df.columns
+
+
+def test_velocity_score_uniform_events_near_zero():
+    # All events from same user in same hour → std = 0 → velocity_score = 0
+    events = [
+        _make_event(user_id="U-VEL", timestamp="2026-05-29T10:00:00+00:00")
+        for _ in range(5)
+    ]
+    df = engineer_features(events)
+    assert (df["velocity_score"] == 0.0).all()
+
+
+def test_velocity_score_spike_is_positive():
+    # 1 event in hour 10, 10 events in hour 14 → hour 14 should have higher velocity
+    events = [_make_event(user_id="U-SPK", timestamp="2026-05-29T10:00:00+00:00")]
+    events += [
+        _make_event(user_id="U-SPK", timestamp="2026-05-29T14:00:00+00:00")
+        for _ in range(10)
+    ]
+    df = engineer_features(events)
+    v_high = df[df["hour_of_day"] == 14]["velocity_score"].iloc[0]
+    v_low  = df[df["hour_of_day"] == 10]["velocity_score"].iloc[0]
+    assert v_high > v_low
+
+
+def test_peer_group_deviation_column_exists():
+    df = engineer_features([_make_event()])
+    assert "peer_group_deviation" in df.columns
+
+
+def test_peer_group_deviation_same_count_near_zero():
+    # 2 users from same role, same event counts → deviation ~0
+    events = [
+        _make_event(user_id="U-P1", user_role="nurse") for _ in range(5)
+    ] + [
+        _make_event(user_id="U-P2", user_role="nurse") for _ in range(5)
+    ]
+    df = engineer_features(events)
+    devs = df["peer_group_deviation"].abs()
+    assert devs.max() < 1.0  # both users identical → near-zero z-score
+
+
+def test_peer_group_deviation_outlier_nonzero():
+    # u1 has 20 events, u2 has 2 → u1 should have high positive peer deviation
+    events = [
+        _make_event(user_id="U-OUT", user_role="physician") for _ in range(20)
+    ] + [
+        _make_event(user_id="U-NRM", user_role="physician") for _ in range(2)
+    ]
+    df = engineer_features(events)
+    u_out_dev = df[df["user_event_count"] == 20]["peer_group_deviation"].iloc[0]
+    assert u_out_dev > 0

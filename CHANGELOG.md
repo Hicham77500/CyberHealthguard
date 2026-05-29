@@ -3,7 +3,14 @@
 Format suivant [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/) et SemVer.
 
 ## [Unreleased]
-### Ajouté — Sprint 6 (Détection avancée)
+### Ajouté — Sprint 7 (UEBA avancé)
+- `src/features/behavioral_baseline.py` (CHG-034) : baselines comportementales glissantes par utilisateur (30 j). `build_baselines()`, `score_user()` (z-scores 4 dimensions + new hours/depts/IPs), `score_all()`, `build_peer_groups()`, `score_peer_deviation()`. Fix `_zscore` : std=0 avec valeur≠moyenne → ±3.0 (détection vraie dérive).
+- `src/features/feature_engineering.py` (CHG-035) : 3 nouvelles features UEBA — `cross_department_access` (RBAC rôle/dept), `velocity_score` (z-score taux horaire), `peer_group_deviation` (z-score vs groupe pairs). Total features : 14 (était 11).
+- `tests/test_behavioral_baseline.py` : 23 tests.
+- `tests/test_feature_engineering.py` : +16 tests CHG-035 (33 au total pour ce fichier).
+- **Total tests** : 203/203 verts en 0.81 s.
+
+
 - `src/detector/ransomware_detector.py` (CHG-031) : 5 détecteurs comportementaux ransomware — mass file modification (sliding window), backup tampering, IOC campaigns (LockBit/BlackCat/Rhysida/Royal/Akira), mass exfiltration burst, privilege-then-filesystem chain. CLI `--input/--output/--window`.
 - `src/detector/travel_detector.py` (CHG-032) : impossible travel (IP-bucket proxy pour localisation sans géo-API), new-IP-for-user (lookback 30 j), off-hours external access. 3 incident types, risk 45-85.
 - `src/detector/lateral_movement.py` (CHG-033) : cross-department access (par rôle RBAC), privilege escalation chain, resource sweep (reconnaissance), role-resource mismatch (it_admin/billing/receptionist vs patient data). 4 incident types.

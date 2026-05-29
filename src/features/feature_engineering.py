@@ -23,6 +23,11 @@ Behavioral (per-user aggregates over the full dataset):
     user_patient_access_count int   patient_data_access events by user
     user_failed_login_count   int   login_failure events by user
 
+UEBA extended (CHG-035):
+    cross_department_access   int   1 if user's dept is outside their role's expected set
+    velocity_score            float z-score of user's hourly event rate vs. their own mean
+    peer_group_deviation      float z-score of user's event count vs. role-group peers
+
 Label:
     is_anomaly                int   0 or 1
 
@@ -77,6 +82,17 @@ STATUS_RISK: Dict[str, int] = {
     "resolved": 0,
 }
 
+# Expected departments per role (RBAC-based cross-department feature)
+_ROLE_EXPECTED_DEPTS: Dict[str, frozenset] = {
+    "physician":          frozenset({"emergency", "cardiology", "oncology", "pediatrics"}),
+    "nurse":              frozenset({"emergency", "geriatrics", "rehab", "pediatrics"}),
+    "it_admin":           frozenset({"administration"}),
+    "lab_tech":           frozenset({"lab_services"}),
+    "imaging_specialist": frozenset({"imaging"}),
+    "billing_specialist": frozenset({"pharmacy", "administration"}),
+    "receptionist":       frozenset({"administration"}),
+}
+
 FEATURE_COLS: List[str] = [
     "hour_of_day",
     "day_of_week",
@@ -89,6 +105,9 @@ FEATURE_COLS: List[str] = [
     "user_event_count",
     "user_patient_access_count",
     "user_failed_login_count",
+    "cross_department_access",
+    "velocity_score",
+    "peer_group_deviation",
 ]
 
 # ---------------------------------------------------------------------------
@@ -122,20 +141,28 @@ def engineer_features(events: List[Dict[str, Any]]) -> pd.DataFrame:
             hour = 0
             dow = 0
 
+        role = evt.get("user_role", "")
+        dept = evt.get("department", "")
+        expected_depts = _ROLE_EXPECTED_DEPTS.get(role, frozenset())
+        cross_dept = int(bool(expected_depts) and dept not in expected_depts)
+
         rows.append({
             # Internal keys used for behavioral aggregates (dropped later)
-            "_user_id": evt.get("user_id", ""),
-            "_category": evt.get("category", ""),
+            "_user_id":   evt.get("user_id", ""),
+            "_role":      role,
+            "_category":  evt.get("category", ""),
             "_event_type": evt.get("event_type", ""),
+            "_hour_key":  f"{evt.get('user_id', '')}_{hour}",
             # Features
             "hour_of_day": hour,
             "day_of_week": dow,
             "is_off_hours": int(hour < 6),
             "severity": int(evt.get("severity", 1)),
             "category_risk": CATEGORY_RISK.get(evt.get("category", ""), 1),
-            "role_risk_score": ROLE_RISK_SCORE.get(evt.get("user_role", ""), 1),
+            "role_risk_score": ROLE_RISK_SCORE.get(role, 1),
             "status_risk": STATUS_RISK.get(evt.get("status", ""), 0),
             "bytes_transferred": float(evt.get("bytes_transferred", 0)),
+            "cross_department_access": cross_dept,
             # Label
             "is_anomaly": int(bool(evt.get("is_anomaly", False))),
         })
@@ -166,6 +193,36 @@ def engineer_features(events: List[Dict[str, Any]]) -> pd.DataFrame:
         .groupby("_user_id")["_is_fail"]
         .transform("sum")
         .astype(int)
+    )
+
+    # --- velocity_score: z-score of user's hourly event rate vs. own mean ---
+    # Count events per user-hour bucket
+    user_hour_counts = df.groupby("_hour_key")["_hour_key"].transform("count")
+    # Per user: mean and std of their hourly counts
+    df["_hourly_count"] = user_hour_counts
+    user_mean_hourly = df.groupby("_user_id")["_hourly_count"].transform("mean")
+    user_std_hourly  = df.groupby("_user_id")["_hourly_count"].transform("std").fillna(0)
+    df["velocity_score"] = np.where(
+        user_std_hourly > 0,
+        ((df["_hourly_count"] - user_mean_hourly) / user_std_hourly).round(4),
+        0.0,
+    )
+
+    # --- peer_group_deviation: z-score of user event count vs. role-group peers ---
+    # Each user's total event count (same as user_event_count)
+    # Group by role → compute mean/std of user_event_count across users in role
+    user_totals = df.groupby("_user_id")["_user_id"].transform("count")
+    df["_user_total"] = user_totals
+    # Deduplicate to get one row per user for role-group stats
+    user_role_df = df[["_user_id", "_role", "_user_total"]].drop_duplicates(subset="_user_id")
+    role_stats = user_role_df.groupby("_role")["_user_total"].agg(["mean", "std"]).rename(
+        columns={"mean": "_role_mean", "std": "_role_std"}
+    ).fillna(0)
+    df = df.join(role_stats, on="_role")
+    df["peer_group_deviation"] = np.where(
+        df["_role_std"] > 0,
+        ((df["_user_total"] - df["_role_mean"]) / df["_role_std"]).round(4),
+        0.0,
     )
 
     return df[FEATURE_COLS + ["is_anomaly"]].reset_index(drop=True)
@@ -206,7 +263,7 @@ def main() -> int:
     anomaly_count = int(df["is_anomaly"].sum())
     print(
         f"[feature-eng] ✅ {len(df)} lignes → {args.output} "
-        f"({anomaly_count} anomalies, {len(FEATURE_COLS)} features)"
+        f"({anomaly_count} anomalies, {len(FEATURE_COLS)} features — CHG-035 UEBA étendu)"
     )
     return 0
 

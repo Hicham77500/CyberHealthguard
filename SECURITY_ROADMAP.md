@@ -70,7 +70,7 @@
 
 ---
 
-### 🟠 Sprint 7 — UEBA avancé (Behavioral Baselines)
+### ✅ Sprint 7 — UEBA avancé (Behavioral Baselines) (TERMINÉ)
 
 | Ticket | Livrable | Description |
 |--------|----------|-------------|

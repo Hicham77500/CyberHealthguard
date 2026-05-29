@@ -37,3 +37,8 @@ Tracer toutes les décisions produit/sécurité/tech. Ajouter une ligne par déc
 | 2026-06-01 | src/detector/lateral_movement.py | CHG-033 — Lateral movement : cross-dept, privilege chain, resource sweep, role mismatch | Adopté |
 | 2026-06-01 | tests/ | Sprint 6 — 64 nouveaux tests (19+24+21) — total 170/170 verts | Adopté |
 | 2026-06-01 | SECURITY_ROADMAP.md | Sprint 6 marqué ✅ Terminé | Adopté |
+| 2026-06-01 | src/features/behavioral_baseline.py | CHG-034 — Baselines UEBA + peer-group deviation scoring | Adopté |
+| 2026-06-01 | src/features/feature_engineering.py | CHG-035 — 3 nouvelles features : cross_department_access, velocity_score, peer_group_deviation (14 features total) | Adopté |
+| 2026-06-01 | tests/ | Sprint 7 — 33 nouveaux tests (23+10) — total 203/203 verts | Adopté |
+| 2026-06-01 | src/features/behavioral_baseline.py | Fix _zscore : std=0 → retourne ±3.0 si valeur ≠ moyenne (vrai comportement outlier) | Adopté |
+| 2026-06-01 | SECURITY_ROADMAP.md | Sprint 7 marqué ✅ Terminé | Adopté |

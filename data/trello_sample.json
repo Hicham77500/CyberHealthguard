@@ -201,6 +201,32 @@
       "attachments": []
     },
     {
+      "idShort": 34,
+      "shortLink": "chg034",
+      "name": "CHG-034 — Behavioral Baseline UEBA (behavioral_baseline.py)",
+      "desc": "Baselines comportementales glissantes 30 j par utilisateur. Score déviation (z-score), détection dérive progressive, peer-group deviation. 23 tests.",
+      "due": "2026-06-01T20:00:00.000Z",
+      "dueComplete": true,
+      "idList": "list_done",
+      "closed": false,
+      "idMembers": ["member_alice"],
+      "labels": [{"name": "UEBA"}, {"name": "Sprint-7"}],
+      "attachments": []
+    },
+    {
+      "idShort": 35,
+      "shortLink": "chg035",
+      "name": "CHG-035 — Feature Engineering UEBA (extension)",
+      "desc": "3 nouvelles features : cross_department_access (RBAC), velocity_score (z-score taux horaire), peer_group_deviation (z-score peers). 14 features total. +16 tests.",
+      "due": "2026-06-01T20:00:00.000Z",
+      "dueComplete": true,
+      "idList": "list_done",
+      "closed": false,
+      "idMembers": ["member_bob"],
+      "labels": [{"name": "UEBA"}, {"name": "Sprint-7"}],
+      "attachments": []
+    },
+    {
       "idShort": 1,
       "shortLink": "abc123",
       "name": "CHG-001 — Dockeriser l'API Zero Trust",
