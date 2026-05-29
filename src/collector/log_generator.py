@@ -333,7 +333,7 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def main() -> None:
+def main() -> int:
     args = parse_args()
     if args.events < 10000:
         raise ValueError("--events must be at least 10000 to satisfy dataset size requirements")
@@ -347,7 +347,8 @@ def main() -> None:
 
     anomaly_total = sum(1 for event in events if event["is_anomaly"])
     print(f"Generated {len(events)} events ({anomaly_total} anomalies) -> {output_file}")
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

@@ -36,7 +36,7 @@ CyberHealthGuard/
 2. **Node** : `npm install` (ou `pnpm`, `yarn`).
 3. **Python** : `python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt` (ajustez selon outil ML).
 4. **Hooks** : `git config core.hooksPath .githooks`.
-5. **Anti-doublons** : `python scripts/anti_dup.py --fix` avant PR.
+5. **Anti-doublons** : `python scripts/anti_dup.py --strict` avant PR.
 6. **Trello sync** : configurer `.env.trello` (cf. plus bas) puis `python scripts/trello_update.py --board-id <ID>`.
 7. **Docker** : `docker compose up anomaly-demo` (exemple ML).
 

@@ -12,3 +12,8 @@ Tracer toutes les décisions produit/sécurité/tech. Ajouter une ligne par déc
 | 2026-03-09 | .githooks/pre-commit | Hook tests/doublons/logs obligatoire | Adopté |
 | 2026-03-09 | .github/workflows | CI + sync Trello automatisés | En cours |
 | 2026-03-09 | src/ml/anomaly_demo.py | PoC IsolationForest pour logs santé | En cours |
+| 2026-05-29 | src/ml/anomaly_demo.py | Suppression imports morts (math, os) | Adopté |
+| 2026-05-29 | scripts/trello_update.py | Suppression constantes mortes TABLE_HEADER/TABLE_DIVIDER + renommage token→word | Adopté |
+| 2026-05-29 | scripts/anti_dup.py | Suppression bloc code mort iter_candidate_files | Adopté |
+| 2026-05-29 | src/collector/log_generator.py | Harmonisation pattern __main__ (raise SystemExit) | Adopté |
+| 2026-05-29 | README.md | Correction commande --fix inexistante → --strict | Adopté |

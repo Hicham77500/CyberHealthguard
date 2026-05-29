@@ -94,12 +94,6 @@ def iter_candidate_files(paths: Sequence[str], extensions: Sequence[str]) -> Ite
         if path.is_dir():
             for file in path.rglob("*"):
                 if file.is_dir():
-                    if file.name in SKIP_DIRS:
-                        # Skip entire sub-tree
-                        dir_path = file
-                        for child in dir_path.iterdir():
-                            # just touching to ensure generator continues
-                            break
                     continue
                 if allowed and file.suffix.lower() not in allowed:
                     continue
