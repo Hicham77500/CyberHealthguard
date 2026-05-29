@@ -1,6 +1,6 @@
 # TRELLO_SYNC
 
-> Généré automatiquement le 2026-05-29 13:13:59Z via `scripts/trello_update.py`.
+> Généré automatiquement le 2026-05-29 13:14:44Z via `scripts/trello_update.py`.
 
 ## Résumé rapide
 | Liste | Tickets |
@@ -49,8 +49,8 @@
 | CHG-24 | CHG-024 — Risk Scoring Engine (risk_scoring.py) | alice | 2026-05-29T20:00:00.000Z | 🟢 | https://github.com/Hicham77500/CyberHealthguard | Scoring, Sprint-3 |
 | CHG-25 | CHG-025 — Alert Manager (alert_manager.py) | bob | 2026-05-29T20:00:00.000Z | 🟢 | https://github.com/Hicham77500/CyberHealthguard | Alerting, Sprint-3 |
 | CHG-26 | CHG-026 — Experiment Tracker (experiment_tracker.py) | alice | 2026-05-29T20:00:00.000Z | 🟢 | https://github.com/Hicham77500/CyberHealthguard | MLOps, Sprint-3 |
-| CHG-27 | CHG-027 — Dashboard / Reporting (Sprint 4) | alice | 2026-05-30T18:00:00.000Z | 🟢 | https://github.com/Hicham77500/CyberHealthguard/commit/TBD | Dashboard, Sprint-4 |
-| CHG-28 | CHG-028 — Tests pytest pipeline complet (Sprint 4) | alice | 2026-05-30T18:00:00.000Z | 🟢 | https://github.com/Hicham77500/CyberHealthguard/commit/TBD | Tests, Sprint-4 |
+| CHG-27 | CHG-027 — Dashboard / Reporting (Sprint 4) | alice | 2026-05-30T18:00:00.000Z | 🟢 | https://github.com/Hicham77500/CyberHealthguard/commit/23fda01 | Dashboard, Sprint-4 |
+| CHG-28 | CHG-028 — Tests pytest pipeline complet (Sprint 4) | alice | 2026-05-30T18:00:00.000Z | 🟢 | https://github.com/Hicham77500/CyberHealthguard/commit/23fda01 | Tests, Sprint-4 |
 
 ## Procédure
 1. Exporter le board en JSON (ou utiliser l'API avec `--board-id`).
