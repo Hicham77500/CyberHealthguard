@@ -105,27 +105,31 @@
       "idShort": 27,
       "shortLink": "chg027",
       "name": "CHG-027 — Dashboard / Reporting (Sprint 4)",
-      "desc": "Interface de restitution des alertes et métriques pour le jury mémoire.",
-      "due": null,
-      "dueComplete": false,
-      "idList": "list_backlog",
+      "desc": "HTML dashboard auto-généré (dark theme). Pipeline orchestrateur 7 étapes.\nhttps://github.com/Hicham77500/CyberHealthguard/commit/TBD",
+      "due": "2026-05-30T18:00:00.000Z",
+      "dueComplete": true,
+      "idList": "list_done",
       "closed": false,
-      "idMembers": [],
+      "idMembers": ["member_alice"],
       "labels": [{"name": "Dashboard"}, {"name": "Sprint-4"}],
-      "attachments": []
+      "attachments": [
+        {"url": "https://github.com/Hicham77500/CyberHealthguard/commit/TBD", "name": "Commit"}
+      ]
     },
     {
       "idShort": 28,
       "shortLink": "chg028",
       "name": "CHG-028 — Tests pytest pipeline complet (Sprint 4)",
-      "desc": "Tests unitaires validator + feature_eng + scoring + alerts.",
-      "due": null,
-      "dueComplete": false,
-      "idList": "list_backlog",
+      "desc": "67 tests unitaires: validator + feature_engineering + risk_scoring + alert_manager.\nhttps://github.com/Hicham77500/CyberHealthguard/commit/TBD",
+      "due": "2026-05-30T18:00:00.000Z",
+      "dueComplete": true,
+      "idList": "list_done",
       "closed": false,
-      "idMembers": [],
+      "idMembers": ["member_alice"],
       "labels": [{"name": "Tests"}, {"name": "Sprint-4"}],
-      "attachments": []
+      "attachments": [
+        {"url": "https://github.com/Hicham77500/CyberHealthguard/commit/TBD", "name": "Commit"}
+      ]
     },
     {
       "idShort": 1,

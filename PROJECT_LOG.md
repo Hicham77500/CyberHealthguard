@@ -24,3 +24,8 @@ Tracer toutes les décisions produit/sécurité/tech. Ajouter une ligne par déc
 | 2026-05-29 | src/alerts/alert_manager.py | CHG-025 — Alert Manager (alertes JSON structurées, 6 types d'anomalies) | Adopté |
 | 2026-05-29 | src/tracking/experiment_tracker.py | CHG-026 — Experiment Tracker JSON (precision/recall/F1/AUC-ROC) | Adopté |
 | 2026-05-29 | data/trello_sample.json + TRELLO_SYNC.md | Mise à jour tickets CHG-021–028, sync pipeline réel | Adopté |
+| 2026-05-30 | tests/ (4 fichiers) | CHG-028 — Suite pytest 67 tests (validator, feature_engineering, risk_scoring, alert_manager) | Adopté |
+| 2026-05-30 | src/reporting/report_generator.py | CHG-027 — Dashboard HTML auto-généré (dark theme, inline CSS, 7 sections) | Adopté |
+| 2026-05-30 | scripts/run_pipeline.py | Orchestrateur pipeline 7 étapes — validation → features → ML → scoring → alertes → tracking → dashboard | Adopté |
+| 2026-05-30 | requirements.txt | Ajout pytest>=8.0.0 | Adopté |
+| 2026-05-30 | data/trello_sample.json | CHG-027 + CHG-028 déplacés en list_done | Adopté |

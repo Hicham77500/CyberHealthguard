@@ -1,0 +1,155 @@
+{
+  "duplicate_files": {},
+  "duplicate_blocks": {
+    "\n## Backlog / Idées\n\n| Ticket ID | Task | Assignee | Due | Status | Link GitHub | Notes |\n| --- | --- | --- | --- | --- | --- | --- |\n| CHG-43 | L'analyse du document doit être rapide (moins de 10 secondes si possible). | Unassigned | - | ⚪️ | - | - |": [
+      [
+        "TRELLO_SYNC.md",
+        67
+      ],
+      [
+        "TRELLO_SYNC.md",
+        86
+      ]
+    ],
+    "## Backlog / Idées\n\n| Ticket ID | Task | Assignee | Due | Status | Link GitHub | Notes |\n| --- | --- | --- | --- | --- | --- | --- |\n| CHG-43 | L'analyse du document doit être rapide (moins de 10 secondes si possible). | Unassigned | - | ⚪️ | - | - |\n| CHG-38 | L'application doit permettre à l'utilisateur de téléverser un fichier PDF depuis l'interface web. | Unassigned | - | ⚪️ | - | - |": [
+      [
+        "TRELLO_SYNC.md",
+        68
+      ],
+      [
+        "TRELLO_SYNC.md",
+        87
+      ]
+    ],
+    "\n| Ticket ID | Task | Assignee | Due | Status | Link GitHub | Notes |\n| --- | --- | --- | --- | --- | --- | --- |\n| CHG-43 | L'analyse du document doit être rapide (moins de 10 secondes si possible). | Unassigned | - | ⚪️ | - | - |\n| CHG-38 | L'application doit permettre à l'utilisateur de téléverser un fichier PDF depuis l'interface web. | Unassigned | - | ⚪️ | - | - |\n| CHG-44 | L'interface utilisateur doit être simple, intuitive et responsive (adaptée au mobile et PC). | Unassigned | - | ⚪️ | - | - |": [
+      [
+        "TRELLO_SYNC.md",
+        69
+      ],
+      [
+        "TRELLO_SYNC.md",
+        88
+      ]
+    ],
+    "| Ticket ID | Task | Assignee | Due | Status | Link GitHub | Notes |\n| --- | --- | --- | --- | --- | --- | --- |\n| CHG-43 | L'analyse du document doit être rapide (moins de 10 secondes si possible). | Unassigned | - | ⚪️ | - | - |\n| CHG-38 | L'application doit permettre à l'utilisateur de téléverser un fichier PDF depuis l'interface web. | Unassigned | - | ⚪️ | - | - |\n| CHG-44 | L'interface utilisateur doit être simple, intuitive et responsive (adaptée au mobile et PC). | Unassigned | - | ⚪️ | - | - |\n| CHG-40 | Le système doit afficher le résumé, les points clés et les actions proposées dans une interface claire. | Unassigned | - | ⚪️ | - | - |": [
+      [
+        "TRELLO_SYNC.md",
+        70
+      ],
+      [
+        "TRELLO_SYNC.md",
+        89
+      ]
+    ],
+    "| --- | --- | --- | --- | --- | --- | --- |\n| CHG-43 | L'analyse du document doit être rapide (moins de 10 secondes si possible). | Unassigned | - | ⚪️ | - | - |\n| CHG-38 | L'application doit permettre à l'utilisateur de téléverser un fichier PDF depuis l'interface web. | Unassigned | - | ⚪️ | - | - |\n| CHG-44 | L'interface utilisateur doit être simple, intuitive et responsive (adaptée au mobile et PC). | Unassigned | - | ⚪️ | - | - |\n| CHG-40 | Le système doit afficher le résumé, les points clés et les actions proposées dans une interface claire. | Unassigned | - | ⚪️ | - | - |\n| CHG-41 | Le système doit enregistrer les résultats dans une base de données pour une consultation ultérieure. | Unassigned | - | ⚪️ | - | - |": [
+      [
+        "TRELLO_SYNC.md",
+        71
+      ],
+      [
+        "TRELLO_SYNC.md",
+        90
+      ]
+    ],
+    "| CHG-43 | L'analyse du document doit être rapide (moins de 10 secondes si possible). | Unassigned | - | ⚪️ | - | - |\n| CHG-38 | L'application doit permettre à l'utilisateur de téléverser un fichier PDF depuis l'interface web. | Unassigned | - | ⚪️ | - | - |\n| CHG-44 | L'interface utilisateur doit être simple, intuitive et responsive (adaptée au mobile et PC). | Unassigned | - | ⚪️ | - | - |\n| CHG-40 | Le système doit afficher le résumé, les points clés et les actions proposées dans une interface claire. | Unassigned | - | ⚪️ | - | - |\n| CHG-41 | Le système doit enregistrer les résultats dans une base de données pour une consultation ultérieure. | Unassigned | - | ⚪️ | - | - |\n| CHG-39 | Le système doit envoyer le contenu du PDF à l'API d'IA pour générer un résumé, des points clés, et des actions. | Unassigned | - | ⚪️ | - | - |": [
+      [
+        "TRELLO_SYNC.md",
+        72
+      ],
+      [
+        "TRELLO_SYNC.md",
+        91
+      ]
+    ],
+    "| CHG-38 | L'application doit permettre à l'utilisateur de téléverser un fichier PDF depuis l'interface web. | Unassigned | - | ⚪️ | - | - |\n| CHG-44 | L'interface utilisateur doit être simple, intuitive et responsive (adaptée au mobile et PC). | Unassigned | - | ⚪️ | - | - |\n| CHG-40 | Le système doit afficher le résumé, les points clés et les actions proposées dans une interface claire. | Unassigned | - | ⚪️ | - | - |\n| CHG-41 | Le système doit enregistrer les résultats dans une base de données pour une consultation ultérieure. | Unassigned | - | ⚪️ | - | - |\n| CHG-39 | Le système doit envoyer le contenu du PDF à l'API d'IA pour générer un résumé, des points clés, et des actions. | Unassigned | - | ⚪️ | - | - |\n| CHG-42 | Le système doit gérer les erreurs (ex : si le fichier n'est pas un PDF, si l'API est indisponible...). | Unassigned | - | ⚪️ | - | - |": [
+      [
+        "TRELLO_SYNC.md",
+        73
+      ],
+      [
+        "TRELLO_SYNC.md",
+        92
+      ]
+    ],
+    "| CHG-44 | L'interface utilisateur doit être simple, intuitive et responsive (adaptée au mobile et PC). | Unassigned | - | ⚪️ | - | - |\n| CHG-40 | Le système doit afficher le résumé, les points clés et les actions proposées dans une interface claire. | Unassigned | - | ⚪️ | - | - |\n| CHG-41 | Le système doit enregistrer les résultats dans une base de données pour une consultation ultérieure. | Unassigned | - | ⚪️ | - | - |\n| CHG-39 | Le système doit envoyer le contenu du PDF à l'API d'IA pour générer un résumé, des points clés, et des actions. | Unassigned | - | ⚪️ | - | - |\n| CHG-42 | Le système doit gérer les erreurs (ex : si le fichier n'est pas un PDF, si l'API est indisponible...). | Unassigned | - | ⚪️ | - | - |\n| CHG-46 | Le système doit être scalable pour gérer plusieurs utilisateurs en même temps. | Unassigned | - | ⚪️ | - | - |": [
+      [
+        "TRELLO_SYNC.md",
+        74
+      ],
+      [
+        "TRELLO_SYNC.md",
+        93
+      ]
+    ],
+    "| CHG-40 | Le système doit afficher le résumé, les points clés et les actions proposées dans une interface claire. | Unassigned | - | ⚪️ | - | - |\n| CHG-41 | Le système doit enregistrer les résultats dans une base de données pour une consultation ultérieure. | Unassigned | - | ⚪️ | - | - |\n| CHG-39 | Le système doit envoyer le contenu du PDF à l'API d'IA pour générer un résumé, des points clés, et des actions. | Unassigned | - | ⚪️ | - | - |\n| CHG-42 | Le système doit gérer les erreurs (ex : si le fichier n'est pas un PDF, si l'API est indisponible...). | Unassigned | - | ⚪️ | - | - |\n| CHG-46 | Le système doit être scalable pour gérer plusieurs utilisateurs en même temps. | Unassigned | - | ⚪️ | - | - |\n| CHG-45 | Les données des documents et résultats doivent être stockées de manière sécurisée. | Unassigned | - | ⚪️ | - | - |": [
+      [
+        "TRELLO_SYNC.md",
+        75
+      ],
+      [
+        "TRELLO_SYNC.md",
+        94
+      ]
+    ],
+    "| CHG-41 | Le système doit enregistrer les résultats dans une base de données pour une consultation ultérieure. | Unassigned | - | ⚪️ | - | - |\n| CHG-39 | Le système doit envoyer le contenu du PDF à l'API d'IA pour générer un résumé, des points clés, et des actions. | Unassigned | - | ⚪️ | - | - |\n| CHG-42 | Le système doit gérer les erreurs (ex : si le fichier n'est pas un PDF, si l'API est indisponible...). | Unassigned | - | ⚪️ | - | - |\n| CHG-46 | Le système doit être scalable pour gérer plusieurs utilisateurs en même temps. | Unassigned | - | ⚪️ | - | - |\n| CHG-45 | Les données des documents et résultats doivent être stockées de manière sécurisée. | Unassigned | - | ⚪️ | - | - |\n| CHG-3 | Obtenir un résumé clair et structuré du document, afin de comprendre rapidement le contenu. | Unassigned | - | ⚪️ | - | - |": [
+      [
+        "TRELLO_SYNC.md",
+        76
+      ],
+      [
+        "TRELLO_SYNC.md",
+        95
+      ]
+    ],
+    "| CHG-39 | Le système doit envoyer le contenu du PDF à l'API d'IA pour générer un résumé, des points clés, et des actions. | Unassigned | - | ⚪️ | - | - |\n| CHG-42 | Le système doit gérer les erreurs (ex : si le fichier n'est pas un PDF, si l'API est indisponible...). | Unassigned | - | ⚪️ | - | - |\n| CHG-46 | Le système doit être scalable pour gérer plusieurs utilisateurs en même temps. | Unassigned | - | ⚪️ | - | - |\n| CHG-45 | Les données des documents et résultats doivent être stockées de manière sécurisée. | Unassigned | - | ⚪️ | - | - |\n| CHG-3 | Obtenir un résumé clair et structuré du document, afin de comprendre rapidement le contenu. | Unassigned | - | ⚪️ | - | - |\n| CHG-6 | Recevoir des suggestions d'actions, afin de savoir quoi faire ensuite (signer, modifier, refuser, etc.). | Unassigned | - | ⚪️ | - | - |": [
+      [
+        "TRELLO_SYNC.md",
+        77
+      ],
+      [
+        "TRELLO_SYNC.md",
+        96
+      ]
+    ],
+    "| CHG-42 | Le système doit gérer les erreurs (ex : si le fichier n'est pas un PDF, si l'API est indisponible...). | Unassigned | - | ⚪️ | - | - |\n| CHG-46 | Le système doit être scalable pour gérer plusieurs utilisateurs en même temps. | Unassigned | - | ⚪️ | - | - |\n| CHG-45 | Les données des documents et résultats doivent être stockées de manière sécurisée. | Unassigned | - | ⚪️ | - | - |\n| CHG-3 | Obtenir un résumé clair et structuré du document, afin de comprendre rapidement le contenu. | Unassigned | - | ⚪️ | - | - |\n| CHG-6 | Recevoir des suggestions d'actions, afin de savoir quoi faire ensuite (signer, modifier, refuser, etc.). | Unassigned | - | ⚪️ | - | - |\n| CHG-7 | Relire mes anciens documents analysés, afin de les consulter à tout moment. | Unassigned | - | ⚪️ | - | - |": [
+      [
+        "TRELLO_SYNC.md",
+        78
+      ],
+      [
+        "TRELLO_SYNC.md",
+        97
+      ]
+    ],
+    "| CHG-46 | Le système doit être scalable pour gérer plusieurs utilisateurs en même temps. | Unassigned | - | ⚪️ | - | - |\n| CHG-45 | Les données des documents et résultats doivent être stockées de manière sécurisée. | Unassigned | - | ⚪️ | - | - |\n| CHG-3 | Obtenir un résumé clair et structuré du document, afin de comprendre rapidement le contenu. | Unassigned | - | ⚪️ | - | - |\n| CHG-6 | Recevoir des suggestions d'actions, afin de savoir quoi faire ensuite (signer, modifier, refuser, etc.). | Unassigned | - | ⚪️ | - | - |\n| CHG-7 | Relire mes anciens documents analysés, afin de les consulter à tout moment. | Unassigned | - | ⚪️ | - | - |\n| CHG-2 | Uploader un document PDF, afin de le faire analyser par l'IA. | Unassigned | - | ⚪️ | - | - |": [
+      [
+        "TRELLO_SYNC.md",
+        79
+      ],
+      [
+        "TRELLO_SYNC.md",
+        98
+      ]
+    ],
+    "| CHG-45 | Les données des documents et résultats doivent être stockées de manière sécurisée. | Unassigned | - | ⚪️ | - | - |\n| CHG-3 | Obtenir un résumé clair et structuré du document, afin de comprendre rapidement le contenu. | Unassigned | - | ⚪️ | - | - |\n| CHG-6 | Recevoir des suggestions d'actions, afin de savoir quoi faire ensuite (signer, modifier, refuser, etc.). | Unassigned | - | ⚪️ | - | - |\n| CHG-7 | Relire mes anciens documents analysés, afin de les consulter à tout moment. | Unassigned | - | ⚪️ | - | - |\n| CHG-2 | Uploader un document PDF, afin de le faire analyser par l'IA. | Unassigned | - | ⚪️ | - | - |\n| CHG-5 | Voir les points clés du document, afin d'identifier rapidement les informations importantes. | Unassigned | - | ⚪️ | - | - |": [
+      [
+        "TRELLO_SYNC.md",
+        80
+      ],
+      [
+        "TRELLO_SYNC.md",
+        99
+      ]
+    ],
+    "| CHG-3 | Obtenir un résumé clair et structuré du document, afin de comprendre rapidement le contenu. | Unassigned | - | ⚪️ | - | - |\n| CHG-6 | Recevoir des suggestions d'actions, afin de savoir quoi faire ensuite (signer, modifier, refuser, etc.). | Unassigned | - | ⚪️ | - | - |\n| CHG-7 | Relire mes anciens documents analysés, afin de les consulter à tout moment. | Unassigned | - | ⚪️ | - | - |\n| CHG-2 | Uploader un document PDF, afin de le faire analyser par l'IA. | Unassigned | - | ⚪️ | - | - |\n| CHG-5 | Voir les points clés du document, afin d'identifier rapidement les informations importantes. | Unassigned | - | ⚪️ | - | - |\n": [
+      [
+        "TRELLO_SYNC.md",
+        81
+      ],
+      [
+        "TRELLO_SYNC.md",
+        100
+      ]
+    ]
+  }
+}

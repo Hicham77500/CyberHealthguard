@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CyberHealthGuard — Security Dashboard</title>
+<style>
+:root {
+  --bg:       #0a0e1a;
+  --surface:  #131929;
+  --border:   #1e2d4a;
+  --accent:   #00d4ff;
+  --text:     #c8d6e5;
+  --muted:    #5a7a9a;
+  --critical: #ff3b5c;
+  --high:     #ff8c42;
+  --medium:   #ffd166;
+  --low:      #06d6a0;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif;
+       font-size: 14px; min-height: 100vh; padding: 0 0 40px; }
+header { background: var(--surface); border-bottom: 1px solid var(--border);
+         padding: 18px 32px; display: flex; align-items: center; gap: 12px; }
+header h1 { font-size: 20px; color: var(--accent); letter-spacing: 0.5px; }
+header span { font-size: 12px; color: var(--muted); margin-left: auto; }
+.container { max-width: 1100px; margin: 32px auto; padding: 0 24px; }
+h2 { font-size: 15px; text-transform: uppercase; letter-spacing: 1px;
+     color: var(--accent); margin-bottom: 16px; }
+.cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+        padding: 20px; }
+.card .label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); }
+.card .value { font-size: 32px; font-weight: 700; color: var(--accent); margin-top: 6px; }
+.card .sub   { font-size: 11px; color: var(--muted); margin-top: 4px; }
+.panel { background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+         padding: 24px; margin-bottom: 24px; }
+/* Risk bars */
+.risk-bar { margin-bottom: 14px; }
+.risk-bar .row { display: flex; align-items: center; gap: 12px; margin-bottom: 4px; }
+.risk-bar .lbl { width: 70px; font-size: 12px; font-weight: 600; }
+.risk-bar .bar-wrap { flex: 1; background: var(--border); border-radius: 4px; height: 12px; }
+.risk-bar .bar { height: 12px; border-radius: 4px; }
+.risk-bar .cnt { width: 60px; font-size: 12px; color: var(--muted); text-align: right; }
+.bar-critical { background: var(--critical); }
+.bar-high     { background: var(--high); }
+.bar-medium   { background: var(--medium); }
+.bar-low      { background: var(--low); }
+/* Table */
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { text-align: left; color: var(--muted); font-weight: 600; padding: 8px 10px;
+     border-bottom: 1px solid var(--border); font-size: 11px; text-transform: uppercase; }
+td { padding: 8px 10px; border-bottom: 1px solid var(--border); }
+tr:last-child td { border-bottom: none; }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 700; }
+.badge-Critical { background: rgba(255,59,92,.15); color: var(--critical); }
+.badge-High     { background: rgba(255,140,66,.15); color: var(--high); }
+.badge-Medium   { background: rgba(255,209,102,.15); color: var(--medium); }
+.badge-Low      { background: rgba(6,214,160,.15); color: var(--low); }
+/* Pipeline steps */
+.steps { display: flex; flex-direction: column; gap: 10px; }
+.step { display: flex; align-items: center; gap: 12px; padding: 10px 14px;
+        border-radius: 6px; border: 1px solid var(--border); }
+.step.ok  { border-color: var(--low); }
+.step.err { border-color: var(--critical); }
+.step .icon { font-size: 16px; }
+.step .name { font-weight: 600; flex: 1; }
+.step .info { font-size: 12px; color: var(--muted); }
+</style>
+</head>
+<body>
+<header>
+  <h1>&#x1F6E1; CyberHealthGuard</h1>
+  <span>Security Intelligence Dashboard &nbsp;|&nbsp; Generated 2026-05-29 13:13 UTC</span>
+</header>
+<div class="container">
+  <div class="cards"><div class="card"><div class="label">Total Events</div><div class="value">12,000</div><div class="sub">validated</div></div><div class="card"><div class="label">Alerts</div><div class="value">1,598</div><div class="sub">threshold ≥ 51</div></div><div class="card"><div class="label">Critical</div><div class="value">9</div><div class="sub">risk level</div></div><div class="card"><div class="label">AUC-ROC</div><div class="value">0.8057</div><div class="sub">last run</div></div></div>
+  <div class="panel"><h2>Risk Distribution</h2><div class="risk-bar"><div class="row"><span class="lbl">Critical</span><div class="bar-wrap"><div class="bar bar-critical" style="width:0.1%"></div></div><span class="cnt">9</span></div></div><div class="risk-bar"><div class="row"><span class="lbl">High</span><div class="bar-wrap"><div class="bar bar-high" style="width:13.2%"></div></div><span class="cnt">1589</span></div></div><div class="risk-bar"><div class="row"><span class="lbl">Medium</span><div class="bar-wrap"><div class="bar bar-medium" style="width:57.9%"></div></div><span class="cnt">6949</span></div></div><div class="risk-bar"><div class="row"><span class="lbl">Low</span><div class="bar-wrap"><div class="bar bar-low" style="width:28.8%"></div></div><span class="cnt">3453</span></div></div><p style="font-size:12px;color:var(--muted);margin-top:12px;">Mean score: <strong>31.35</strong> &nbsp;|&nbsp; Max score: <strong>84.70</strong></p></div>
+  <div class="panel"><h2>Top Alerts</h2><table><thead><tr><th>Alert ID</th><th>Severity</th><th>Type</th><th>Score</th><th>Time</th></tr></thead><tbody><tr><td>ALT-B9E56636</td><td><span class="badge badge-Critical">Critical</span></td><td>Off Hours Patient Access</td><td><strong>84.7</strong></td><td>2026-05-29 13:13:19</td></tr><tr><td>ALT-8A0738E0</td><td><span class="badge badge-Critical">Critical</span></td><td>Off Hours Patient Access</td><td><strong>84.7</strong></td><td>2026-05-29 13:13:19</td></tr><tr><td>ALT-98FD5C88</td><td><span class="badge badge-Critical">Critical</span></td><td>Off Hours Patient Access</td><td><strong>84.7</strong></td><td>2026-05-29 13:13:19</td></tr><tr><td>ALT-FAA06BD6</td><td><span class="badge badge-Critical">Critical</span></td><td>Off Hours Patient Access</td><td><strong>84.7</strong></td><td>2026-05-29 13:13:19</td></tr><tr><td>ALT-1665DAA1</td><td><span class="badge badge-Critical">Critical</span></td><td>Off Hours Patient Access</td><td><strong>81.3</strong></td><td>2026-05-29 13:13:19</td></tr><tr><td>ALT-89A6BF1C</td><td><span class="badge badge-Critical">Critical</span></td><td>Off Hours Patient Access</td><td><strong>81.3</strong></td><td>2026-05-29 13:13:19</td></tr><tr><td>ALT-CABD20B1</td><td><span class="badge badge-Critical">Critical</span></td><td>Off Hours Patient Access</td><td><strong>81.3</strong></td><td>2026-05-29 13:13:19</td></tr><tr><td>ALT-72E9CED6</td><td><span class="badge badge-Critical">Critical</span></td><td>Off Hours Patient Access</td><td><strong>81.3</strong></td><td>2026-05-29 13:13:19</td></tr><tr><td>ALT-7EBFC31E</td><td><span class="badge badge-Critical">Critical</span></td><td>Off Hours Patient Access</td><td><strong>81.3</strong></td><td>2026-05-29 13:13:19</td></tr><tr><td>ALT-780A7C90</td><td><span class="badge badge-High">High</span></td><td>Off Hours Patient Access</td><td><strong>80.0</strong></td><td>2026-05-29 13:13:19</td></tr><tr><td>ALT-8296E365</td><td><span class="badge badge-High">High</span></td><td>Privilege Abuse</td><td><strong>80.0</strong></td><td>2026-05-29 13:13:19</td></tr><tr><td>ALT-50DB7DE4</td><td><span class="badge badge-High">High</span></td><td>Off Hours Patient Access</td><td><strong>80.0</strong></td><td>2026-05-29 13:13:19</td></tr><tr><td>ALT-BAB52DD7</td><td><span class="badge badge-High">High</span></td><td>Privilege Abuse</td><td><strong>80.0</strong></td><td>2026-05-29 13:13:19</td></tr><tr><td>ALT-74513674</td><td><span class="badge badge-High">High</span></td><td>Privilege Abuse</td><td><strong>80.0</strong></td><td>2026-05-29 13:13:19</td></tr><tr><td>ALT-B19FFE9E</td><td><span class="badge badge-High">High</span></td><td>Privilege Abuse</td><td><strong>80.0</strong></td><td>2026-05-29 13:13:19</td></tr><tr><td>ALT-FE559400</td><td><span class="badge badge-High">High</span></td><td>Off Hours Patient Access</td><td><strong>80.0</strong></td><td>2026-05-29 13:13:19</td></tr><tr><td>ALT-365D10ED</td><td><span class="badge badge-High">High</span></td><td>Off Hours Patient Access</td><td><strong>79.7</strong></td><td>2026-05-29 13:13:19</td></tr><tr><td>ALT-EBBF1383</td><td><span class="badge badge-High">High</span></td><td>Off Hours Patient Access</td><td><strong>78.0</strong></td><td>2026-05-29 13:13:19</td></tr><tr><td>ALT-94FEC84A</td><td><span class="badge badge-High">High</span></td><td>Suspicious Network Activity</td><td><strong>76.7</strong></td><td>2026-05-29 13:13:19</td></tr><tr><td>ALT-DFF910AE</td><td><span class="badge badge-High">High</span></td><td>Suspicious Network Activity</td><td><strong>76.7</strong></td><td>2026-05-29 13:13:19</td></tr></tbody></table></div>
+  <div class="panel"><h2>Experiment History (last 10)</h2><table><thead><tr><th>Run ID</th><th>Date</th><th>AUC-ROC</th><th>F1</th><th>Precision</th><th>Recall</th><th>Anomalies</th></tr></thead><tbody><tr><td>RUN-3E46EDAC</td><td>2026-05-29 13:13:19</td><td>0.8057</td><td>0.3438</td><td>0.3010</td><td>0.4008</td><td>481</td></tr><tr><td>RUN-142790C7</td><td>2026-05-29 12:40:26</td><td>0.8057</td><td>0.3438</td><td>0.3010</td><td>0.4008</td><td>481</td></tr></tbody></table></div>
+  <div class="panel"><h2>Pipeline Status</h2><div class="steps"><div class="step ok"><span class="icon">✅</span><span class="name">Dataset Validation</span><span class="info">12,000 events — 0 errors</span></div><div class="step ok"><span class="icon">✅</span><span class="name">Feature Engineering</span><span class="info">11 features extracted</span></div><div class="step ok"><span class="icon">✅</span><span class="name">IsolationForest</span><span class="info">AUC-ROC = 0.8057</span></div><div class="step ok"><span class="icon">✅</span><span class="name">Risk Scoring</span><span class="info">Mean = 31.35 / Max = 84.70</span></div><div class="step ok"><span class="icon">✅</span><span class="name">Alert Generation</span><span class="info">1598 alerts generated</span></div><div class="step ok"><span class="icon">✅</span><span class="name">Experiment Tracking</span><span class="info">2 run(s) recorded</span></div><div class="step ok"><span class="icon">✅</span><span class="name">Dashboard</span><span class="info">This report</span></div></div></div>
+</div>
+</body>
+</html>

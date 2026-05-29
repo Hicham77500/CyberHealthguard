@@ -1,0 +1,9 @@
+{
+  "total": 12000,
+  "Critical": 9,
+  "High": 1589,
+  "Medium": 6949,
+  "Low": 3453,
+  "mean_score": 31.35,
+  "max_score": 84.7
+}
