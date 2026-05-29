@@ -32,3 +32,8 @@ Tracer toutes les décisions produit/sécurité/tech. Ajouter une ligne par déc
 | 2026-05-29 | src/compliance/audit_trail.py | CHG-030 — Piste d'audit immuable JSONL chainé SHA-256 | Adopté |
 | 2026-05-29 | scripts/run_pipeline.py | Pipeline étendu à 9 étapes (+ NIS2 + Audit Trail) | Adopté |
 | 2026-05-29 | data/trello_sample.json | Ajout CHG-029 + CHG-030 en list_done (Sprint 5) | Adopté |
+| 2026-06-01 | src/detector/ransomware_detector.py | CHG-031 — 5 détecteurs comportementaux ransomware (IOC LockBit/BlackCat/Rhysida, burst, backup tampering) | Adopté |
+| 2026-06-01 | src/detector/travel_detector.py | CHG-032 — Impossible travel + new-IP-for-user + off-hours external (IP bucket proxy) | Adopté |
+| 2026-06-01 | src/detector/lateral_movement.py | CHG-033 — Lateral movement : cross-dept, privilege chain, resource sweep, role mismatch | Adopté |
+| 2026-06-01 | tests/ | Sprint 6 — 64 nouveaux tests (19+24+21) — total 170/170 verts | Adopté |
+| 2026-06-01 | SECURITY_ROADMAP.md | Sprint 6 marqué ✅ Terminé | Adopté |

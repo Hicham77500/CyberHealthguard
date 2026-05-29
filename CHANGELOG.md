@@ -3,7 +3,17 @@
 Format suivant [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/) et SemVer.
 
 ## [Unreleased]
-### Ajouté
+### Ajouté — Sprint 6 (Détection avancée)
+- `src/detector/ransomware_detector.py` (CHG-031) : 5 détecteurs comportementaux ransomware — mass file modification (sliding window), backup tampering, IOC campaigns (LockBit/BlackCat/Rhysida/Royal/Akira), mass exfiltration burst, privilege-then-filesystem chain. CLI `--input/--output/--window`.
+- `src/detector/travel_detector.py` (CHG-032) : impossible travel (IP-bucket proxy pour localisation sans géo-API), new-IP-for-user (lookback 30 j), off-hours external access. 3 incident types, risk 45-85.
+- `src/detector/lateral_movement.py` (CHG-033) : cross-department access (par rôle RBAC), privilege escalation chain, resource sweep (reconnaissance), role-resource mismatch (it_admin/billing/receptionist vs patient data). 4 incident types.
+- `tests/test_ransomware_detector.py` : 19 tests.
+- `tests/test_travel_detector.py` : 24 tests.
+- `tests/test_lateral_movement.py` : 21 tests.
+- `src/detector/__init__.py` : package Python créé.
+- **Total tests** : 170/170 verts en 1.04 s.
+
+
 - `src/compliance/nis2_reporter.py` (CHG-029) : rapport d'incident NIS2 Art.23 — champs obligatoires ANSSI/CERT Santé, classification Significant/Non-significant, délais 24h/72h automatiques, mapping PGSSI-S, export JSON + HTML PDF-ready, signature SHA-256.
 - `src/compliance/audit_trail.py` (CHG-030) : piste d'audit append-only JSONL chainé SHA-256 (tamper-evident). Vérification d'intégrité de la chaîne, mapping PGSSI-S v2, export HTML, CLI avec sous-commandes `log`/`verify`/`export`/`stats`.
 - `tests/test_nis2_reporter.py` : 22 tests (build_report, sign_report, HTML, intégration fichier).

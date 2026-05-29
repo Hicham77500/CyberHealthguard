@@ -1,6 +1,6 @@
 # TRELLO_SYNC
 
-> Généré automatiquement le 2026-05-29 13:40:37Z via `scripts/trello_update.py`.
+> Généré automatiquement le 2026-05-29 13:51:56Z via `scripts/trello_update.py`.
 
 ## Résumé rapide
 | Liste | Tickets |
@@ -9,8 +9,8 @@
 | À Faire | 1 |
 | In Progress | 0 |
 | En Revue | 0 |
-| Terminé | 13 |
-| Total | 14 |
+| Terminé | 16 |
+| Total | 17 |
 
 ## Backlog
 
@@ -53,6 +53,9 @@
 | CHG-30 | CHG-030 — Audit Trail SHA-256 (append-only) | alice | 2026-05-29T20:00:00.000Z | 🟢 | https://github.com/Hicham77500/CyberHealthguard/commit/3180fb1 | Compliance, Sprint-5 |
 | CHG-27 | CHG-027 — Dashboard / Reporting (Sprint 4) | alice | 2026-05-30T18:00:00.000Z | 🟢 | https://github.com/Hicham77500/CyberHealthguard/commit/23fda01 | Dashboard, Sprint-4 |
 | CHG-28 | CHG-028 — Tests pytest pipeline complet (Sprint 4) | alice | 2026-05-30T18:00:00.000Z | 🟢 | https://github.com/Hicham77500/CyberHealthguard/commit/23fda01 | Tests, Sprint-4 |
+| CHG-31 | CHG-031 — Ransomware Detector (ransomware_detector.py) | alice | 2026-06-01T18:00:00.000Z | 🟢 | - | Detection, Sprint-6 |
+| CHG-32 | CHG-032 — Travel Detector (travel_detector.py) | alice | 2026-06-01T18:00:00.000Z | 🟢 | - | Detection, Sprint-6 |
+| CHG-33 | CHG-033 — Lateral Movement Detector (lateral_movement.py) | bob | 2026-06-01T18:00:00.000Z | 🟢 | - | Detection, Sprint-6 |
 
 ## Procédure
 1. Exporter le board en JSON (ou utiliser l'API avec `--board-id`).

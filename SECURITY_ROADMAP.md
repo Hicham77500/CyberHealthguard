@@ -60,7 +60,7 @@
 
 ---
 
-### 🔴 Sprint 6 — Détection avancée des menaces (PRIORITÉ SUIVANTE)
+### ✅ Sprint 6 — Détection avancée des menaces (TERMINÉ)
 
 | Ticket | Livrable | Description |
 |--------|----------|-------------|

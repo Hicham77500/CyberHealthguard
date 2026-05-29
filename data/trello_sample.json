@@ -162,6 +162,45 @@
       ]
     },
     {
+      "idShort": 31,
+      "shortLink": "chg031",
+      "name": "CHG-031 — Ransomware Detector (ransomware_detector.py)",
+      "desc": "5 détecteurs comportementaux : mass file modification, backup tampering, IOC campaigns (LockBit/BlackCat/Rhysida/Royal/Akira), mass exfil burst, privilege-then-filesystem. 19 tests.",
+      "due": "2026-06-01T18:00:00.000Z",
+      "dueComplete": true,
+      "idList": "list_done",
+      "closed": false,
+      "idMembers": ["member_alice"],
+      "labels": [{"name": "Detection"}, {"name": "Sprint-6"}],
+      "attachments": []
+    },
+    {
+      "idShort": 32,
+      "shortLink": "chg032",
+      "name": "CHG-032 — Travel Detector (travel_detector.py)",
+      "desc": "Impossible travel (IP bucket proxy), new-IP-for-user, off-hours external login. 24 tests.",
+      "due": "2026-06-01T18:00:00.000Z",
+      "dueComplete": true,
+      "idList": "list_done",
+      "closed": false,
+      "idMembers": ["member_alice"],
+      "labels": [{"name": "Detection"}, {"name": "Sprint-6"}],
+      "attachments": []
+    },
+    {
+      "idShort": 33,
+      "shortLink": "chg033",
+      "name": "CHG-033 — Lateral Movement Detector (lateral_movement.py)",
+      "desc": "Cross-department access, privilege escalation chain, resource sweep (reconnaissance), role-resource mismatch. 21 tests.",
+      "due": "2026-06-01T18:00:00.000Z",
+      "dueComplete": true,
+      "idList": "list_done",
+      "closed": false,
+      "idMembers": ["member_bob"],
+      "labels": [{"name": "Detection"}, {"name": "Sprint-6"}],
+      "attachments": []
+    },
+    {
       "idShort": 1,
       "shortLink": "abc123",
       "name": "CHG-001 — Dockeriser l'API Zero Trust",
