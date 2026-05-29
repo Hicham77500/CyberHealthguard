@@ -1,6 +1,7 @@
 """CHG-027 — HTML Dashboard Generator.
 
-Reads pipeline artifacts and produces a self-contained HTML report.
+Reads pipeline artifacts and produces a self-contained bilingual (EN/FR) HTML report.
+Language preference is persisted in localStorage; default is English.
 
 Usage
 -----
@@ -14,6 +15,27 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
+
+
+# ---------------------------------------------------------------------------
+# Translations
+# ---------------------------------------------------------------------------
+
+_SEVERITY_FR: dict[str, str] = {
+    "Critical": "Critique",
+    "High":     "Élevé",
+    "Medium":   "Moyen",
+    "Low":      "Faible",
+}
+
+_ALERT_TYPE_FR: dict[str, str] = {
+    "Off Hours Patient Access":   "Accès Patient Hors Horaires",
+    "Mass Data Exfiltration":     "Exfiltration Massive de Données",
+    "Privilege Abuse":            "Abus de Privilèges",
+    "Suspicious Network Activity":"Activité Réseau Suspecte",
+    "Repeated Login Failure":     "Échecs de Connexion Répétés",
+    "Anomalous Activity":         "Activité Anormale",
+}
 
 
 # ---------------------------------------------------------------------------
@@ -39,7 +61,15 @@ body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', syste
 header { background: var(--surface); border-bottom: 1px solid var(--border);
          padding: 18px 32px; display: flex; align-items: center; gap: 12px; }
 header h1 { font-size: 20px; color: var(--accent); letter-spacing: 0.5px; }
-header span { font-size: 12px; color: var(--muted); margin-left: auto; }
+.header-meta { font-size: 12px; color: var(--muted); margin-left: auto; }
+/* Language toggle */
+.lang-toggle { display: flex; gap: 4px; margin-left: 18px; }
+.lang-btn { background: transparent; border: 1px solid var(--border); color: var(--muted);
+            border-radius: 4px; padding: 4px 10px; cursor: pointer; font-size: 12px;
+            font-weight: 700; transition: all 0.15s; }
+.lang-btn.active { background: var(--accent); border-color: var(--accent); color: #0a0e1a; }
+.lang-btn:hover:not(.active) { border-color: var(--accent); color: var(--accent); }
+/* Layout */
 .container { max-width: 1100px; margin: 32px auto; padding: 0 24px; }
 h2 { font-size: 15px; text-transform: uppercase; letter-spacing: 1px;
      color: var(--accent); margin-bottom: 16px; }
@@ -84,6 +114,31 @@ tr:last-child td { border-bottom: none; }
 .step .info { font-size: 12px; color: var(--muted); }
 """
 
+# Language-switching script — reads data-en / data-fr attributes and updates textContent.
+_JS = """
+(function () {
+  const KEY = 'chg_lang';
+  function setLang(lang) {
+    document.documentElement.lang = lang;
+    try { localStorage.setItem(KEY, lang); } catch(_) {}
+    document.querySelectorAll('[data-en]').forEach(function(el) {
+      el.textContent = (lang === 'fr') ? (el.dataset.fr || el.dataset.en) : el.dataset.en;
+    });
+    var btnEn = document.getElementById('btn-en');
+    var btnFr = document.getElementById('btn-fr');
+    if (btnEn) btnEn.classList.toggle('active', lang === 'en');
+    if (btnFr) btnFr.classList.toggle('active', lang === 'fr');
+  }
+  window.setLang = setLang;
+  document.addEventListener('DOMContentLoaded', function() {
+    var saved = 'en';
+    try { saved = localStorage.getItem(KEY) || 'en'; } catch(_) {}
+    setLang(saved);
+  });
+})();
+"""
+
+
 # ---------------------------------------------------------------------------
 # Artifact loading
 # ---------------------------------------------------------------------------
@@ -108,48 +163,75 @@ def _load_jsonl(path: Path) -> list[dict]:
 
 
 # ---------------------------------------------------------------------------
-# HTML generation helpers
+# HTML generation helpers — all translatable text uses data-en / data-fr
 # ---------------------------------------------------------------------------
 
-def _stat_card(label: str, value: str | int | float, sub: str = "") -> str:
-    sub_html = f'<div class="sub">{sub}</div>' if sub else ""
+def _t(en: str, fr: str) -> str:
+    """Inline bilingual span."""
+    en_esc = en.replace('"', "&quot;")
+    fr_esc = fr.replace('"', "&quot;")
+    return f'<span data-en="{en_esc}" data-fr="{fr_esc}">{en}</span>'
+
+
+def _stat_card(
+    label_en: str, label_fr: str,
+    value: str | int | float,
+    sub_en: str = "", sub_fr: str = "",
+) -> str:
+    sub_html = (
+        f'<div class="sub" data-en="{sub_en}" data-fr="{sub_fr}">{sub_en}</div>'
+        if sub_en else ""
+    )
     return (
         f'<div class="card">'
-        f'<div class="label">{label}</div>'
+        f'<div class="label" data-en="{label_en}" data-fr="{label_fr}">{label_en}</div>'
         f'<div class="value">{value}</div>'
         f'{sub_html}'
         f'</div>'
     )
 
 
-def _risk_bar(label: str, count: int, total: int, css_class: str) -> str:
+def _risk_bar(label_en: str, label_fr: str, count: int, total: int, css_class: str) -> str:
     pct = round(count / total * 100, 1) if total else 0
     width = f"{pct:.1f}%"
     return (
-        f'<div class="risk-bar">'
-        f'<div class="row">'
-        f'<span class="lbl">{label}</span>'
+        f'<div class="risk-bar"><div class="row">'
+        f'<span class="lbl" data-en="{label_en}" data-fr="{label_fr}">{label_en}</span>'
         f'<div class="bar-wrap"><div class="bar {css_class}" style="width:{width}"></div></div>'
         f'<span class="cnt">{count}</span>'
-        f'</div>'
-        f'</div>'
+        f'</div></div>'
     )
 
 
 def _badge(level: str) -> str:
-    return f'<span class="badge badge-{level}">{level}</span>'
+    fr = _SEVERITY_FR.get(level, level)
+    return (
+        f'<span class="badge badge-{level}">'
+        f'<span data-en="{level}" data-fr="{fr}">{level}</span>'
+        f'</span>'
+    )
 
 
-def _pipeline_step(name: str, info: str, ok: bool = True) -> str:
+def _pipeline_step(
+    name_en: str, name_fr: str,
+    info_en: str, info_fr: str,
+    ok: bool = True,
+) -> str:
     icon = "✅" if ok else "❌"
     css = "ok" if ok else "err"
+    info_fr_esc = info_fr.replace('"', "&quot;")
+    info_en_esc = info_en.replace('"', "&quot;")
     return (
         f'<div class="step {css}">'
         f'<span class="icon">{icon}</span>'
-        f'<span class="name">{name}</span>'
-        f'<span class="info">{info}</span>'
+        f'<span class="name" data-en="{name_en}" data-fr="{name_fr}">{name_en}</span>'
+        f'<span class="info" data-en="{info_en_esc}" data-fr="{info_fr_esc}">{info_en}</span>'
         f'</div>'
     )
+
+
+def _th(en: str, fr: str) -> str:
+    return f'<th data-en="{en}" data-fr="{fr}">{en}</th>'
 
 
 # ---------------------------------------------------------------------------
@@ -162,45 +244,41 @@ def generate_html(
     experiments: list[dict],
     validation: dict,
 ) -> str:
-    """Assemble the full HTML report as a string."""
+    """Assemble the full bilingual HTML report as a string."""
     now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
 
     # ── Stat cards ──────────────────────────────────────────────────────────
     total_events = validation.get("total", 0) if validation else 0
     total_alerts = len(alerts_data)
     critical_count = risk_summary.get("Critical", 0) if risk_summary else 0
-    auc = ""
-    if experiments:
-        last = experiments[-1]
-        auc = f"{last.get('metrics', {}).get('auc_roc', 0):.4f}"
-    else:
-        auc = "N/A"
+    auc = f"{experiments[-1].get('metrics', {}).get('auc_roc', 0):.4f}" if experiments else "N/A"
 
     cards_html = (
-        _stat_card("Total Events", f"{total_events:,}", "validated")
-        + _stat_card("Alerts", f"{total_alerts:,}", f"threshold ≥ 51")
-        + _stat_card("Critical", str(critical_count), "risk level")
-        + _stat_card("AUC-ROC", auc, "last run")
+        _stat_card("Total Events", "Événements Total", f"{total_events:,}", "validated", "validés")
+        + _stat_card("Alerts", "Alertes", f"{total_alerts:,}", "threshold ≥ 51", "seuil ≥ 51")
+        + _stat_card("Critical", "Critique", str(critical_count), "risk level", "niveau de risque")
+        + _stat_card("AUC-ROC", "AUC-ROC", auc, "last run", "dernière exécution")
     )
 
     # ── Risk distribution bars ───────────────────────────────────────────────
     rs = risk_summary or {}
     total_rs = rs.get("total", 1) or 1
-    bars_html = (
-        _risk_bar("Critical", rs.get("Critical", 0), total_rs, "bar-critical")
-        + _risk_bar("High",     rs.get("High",     0), total_rs, "bar-high")
-        + _risk_bar("Medium",   rs.get("Medium",   0), total_rs, "bar-medium")
-        + _risk_bar("Low",      rs.get("Low",      0), total_rs, "bar-low")
-    )
     mean_s = rs.get("mean_score", 0)
     max_s  = rs.get("max_score",  0)
+    bars_html = (
+        _risk_bar("Critical", "Critique", rs.get("Critical", 0), total_rs, "bar-critical")
+        + _risk_bar("High",   "Élevé",    rs.get("High",     0), total_rs, "bar-high")
+        + _risk_bar("Medium", "Moyen",    rs.get("Medium",   0), total_rs, "bar-medium")
+        + _risk_bar("Low",    "Faible",   rs.get("Low",      0), total_rs, "bar-low")
+    )
     dist_html = (
         f'<div class="panel">'
-        f'<h2>Risk Distribution</h2>'
+        f'<h2 data-en="Risk Distribution" data-fr="Répartition des Risques">Risk Distribution</h2>'
         f'{bars_html}'
         f'<p style="font-size:12px;color:var(--muted);margin-top:12px;">'
-        f'Mean score: <strong>{mean_s:.2f}</strong> &nbsp;|&nbsp; '
-        f'Max score: <strong>{max_s:.2f}</strong>'
+        f'{_t("Mean score:", "Score moyen :")} <strong>{mean_s:.2f}</strong>'
+        f' &nbsp;|&nbsp; '
+        f'{_t("Max score:", "Score max :")} <strong>{max_s:.2f}</strong>'
         f'</p>'
         f'</div>'
     )
@@ -209,25 +287,31 @@ def generate_html(
     top_alerts = sorted(alerts_data, key=lambda a: a.get("risk_score", 0), reverse=True)[:20]
     rows_html = ""
     for a in top_alerts:
-        sev  = a.get("severity", "")
-        atype = a.get("alert_type", "").replace("_", " ").title()
-        score = a.get("risk_score", 0)
-        aid  = a.get("alert_id", "")
-        ts   = a.get("timestamp", "")[:19].replace("T", " ")
+        sev      = a.get("severity", "")
+        atype_en = a.get("alert_type", "").replace("_", " ").title()
+        atype_fr = _ALERT_TYPE_FR.get(atype_en, atype_en)
+        score    = a.get("risk_score", 0)
+        aid      = a.get("alert_id", "")
+        ts       = a.get("timestamp", "")[:19].replace("T", " ")
         rows_html += (
             f"<tr>"
             f"<td>{aid}</td>"
             f"<td>{_badge(sev)}</td>"
-            f"<td>{atype}</td>"
+            f'<td data-en="{atype_en}" data-fr="{atype_fr}">{atype_en}</td>'
             f"<td><strong>{score:.1f}</strong></td>"
             f"<td>{ts}</td>"
             f"</tr>"
         )
     alerts_html = (
         f'<div class="panel">'
-        f'<h2>Top Alerts</h2>'
-        f'<table>'
-        f'<thead><tr><th>Alert ID</th><th>Severity</th><th>Type</th><th>Score</th><th>Time</th></tr></thead>'
+        f'<h2 data-en="Top Alerts" data-fr="Principales Alertes">Top Alerts</h2>'
+        f'<table><thead><tr>'
+        f'{_th("Alert ID", "ID Alerte")}'
+        f'{_th("Severity", "Sévérité")}'
+        f'{_th("Type", "Type")}'
+        f'{_th("Score", "Score")}'
+        f'{_th("Time", "Horodatage")}'
+        f'</tr></thead>'
         f'<tbody>{rows_html}</tbody>'
         f'</table>'
         f'</div>'
@@ -236,52 +320,89 @@ def generate_html(
     # ── Experiment history ───────────────────────────────────────────────────
     exp_rows = ""
     for e in reversed(experiments[-10:]):
-        run_id  = e.get("run_id", "")
         metrics = e.get("metrics", {})
-        auc_v   = metrics.get("auc_roc", 0)
-        f1_v    = metrics.get("f1_score", 0)
-        prec_v  = metrics.get("precision", 0)
-        rec_v   = metrics.get("recall", 0)
-        det_v   = metrics.get("detected_anomalies", 0)
         ts_e    = e.get("timestamp", "")[:19].replace("T", " ")
         exp_rows += (
             f"<tr>"
-            f"<td>{run_id}</td>"
+            f"<td>{e.get('run_id', '')}</td>"
             f"<td>{ts_e}</td>"
-            f"<td>{auc_v:.4f}</td>"
-            f"<td>{f1_v:.4f}</td>"
-            f"<td>{prec_v:.4f}</td>"
-            f"<td>{rec_v:.4f}</td>"
-            f"<td>{det_v}</td>"
+            f"<td>{metrics.get('auc_roc', 0):.4f}</td>"
+            f"<td>{metrics.get('f1_score', 0):.4f}</td>"
+            f"<td>{metrics.get('precision', 0):.4f}</td>"
+            f"<td>{metrics.get('recall', 0):.4f}</td>"
+            f"<td>{metrics.get('detected_anomalies', 0)}</td>"
             f"</tr>"
         )
+    empty_row = (
+        f'<tr><td colspan="7">'
+        f'{_t("No runs recorded", "Aucune exécution enregistrée")}'
+        f'</td></tr>'
+    )
     exp_html = (
         f'<div class="panel">'
-        f'<h2>Experiment History (last 10)</h2>'
-        f'<table>'
-        f'<thead><tr>'
-        f'<th>Run ID</th><th>Date</th><th>AUC-ROC</th>'
-        f'<th>F1</th><th>Precision</th><th>Recall</th><th>Anomalies</th>'
+        f'<h2 data-en="Experiment History (last 10)" data-fr="Historique des Expériences (10 dernières)">'
+        f'Experiment History (last 10)</h2>'
+        f'<table><thead><tr>'
+        f'{_th("Run ID", "ID Exécution")}'
+        f'{_th("Date", "Date")}'
+        f'{_th("AUC-ROC", "AUC-ROC")}'
+        f'{_th("F1", "F1")}'
+        f'{_th("Precision", "Précision")}'
+        f'{_th("Recall", "Rappel")}'
+        f'{_th("Anomalies", "Anomalies")}'
         f'</tr></thead>'
-        f'<tbody>{exp_rows if exp_rows else "<tr><td colspan=7>No runs recorded</td></tr>"}</tbody>'
+        f'<tbody>{exp_rows if exp_rows else empty_row}</tbody>'
         f'</table>'
         f'</div>'
     )
 
     # ── Pipeline status ──────────────────────────────────────────────────────
-    v_ok  = bool(validation and validation.get("error_count", 1) == 0)
+    v_ok     = bool(validation and validation.get("error_count", 1) == 0)
+    err_c    = validation.get("error_count", "?") if validation else "?"
+    n_runs   = len(experiments)
+
     steps_html = (
-        _pipeline_step("Dataset Validation",    f"{total_events:,} events — {validation.get('error_count', '?')} errors",    v_ok)
-        + _pipeline_step("Feature Engineering", f"11 features extracted",                                                    True)
-        + _pipeline_step("IsolationForest",     f"AUC-ROC = {auc}",                                                         bool(experiments))
-        + _pipeline_step("Risk Scoring",        f"Mean = {mean_s:.2f} / Max = {max_s:.2f}",                                 bool(risk_summary))
-        + _pipeline_step("Alert Generation",    f"{total_alerts} alerts generated",                                          bool(alerts_data))
-        + _pipeline_step("Experiment Tracking", f"{len(experiments)} run(s) recorded",                                       bool(experiments))
-        + _pipeline_step("Dashboard",           "This report",                                                               True)
+        _pipeline_step(
+            "Dataset Validation", "Validation des Données",
+            f"{total_events:,} events — {err_c} error(s)",
+            f"{total_events:,} événements — {err_c} erreur(s)",
+            v_ok,
+        )
+        + _pipeline_step(
+            "Feature Engineering", "Ingénierie des Features",
+            "11 features extracted", "11 features extraites",
+            True,
+        )
+        + _pipeline_step(
+            "IsolationForest", "IsolationForest",
+            f"AUC-ROC = {auc}", f"AUC-ROC = {auc}",
+            bool(experiments),
+        )
+        + _pipeline_step(
+            "Risk Scoring", "Scoring des Risques",
+            f"Mean = {mean_s:.2f} / Max = {max_s:.2f}",
+            f"Moyenne = {mean_s:.2f} / Max = {max_s:.2f}",
+            bool(risk_summary),
+        )
+        + _pipeline_step(
+            "Alert Generation", "Génération d'Alertes",
+            f"{total_alerts} alerts generated", f"{total_alerts} alertes générées",
+            bool(alerts_data),
+        )
+        + _pipeline_step(
+            "Experiment Tracking", "Suivi des Expériences",
+            f"{n_runs} run(s) recorded", f"{n_runs} exécution(s) enregistrée(s)",
+            bool(experiments),
+        )
+        + _pipeline_step(
+            "Dashboard", "Tableau de Bord",
+            "This report", "Ce rapport",
+            True,
+        )
     )
     pipeline_html = (
         f'<div class="panel">'
-        f'<h2>Pipeline Status</h2>'
+        f'<h2 data-en="Pipeline Status" data-fr="État du Pipeline">Pipeline Status</h2>'
         f'<div class="steps">{steps_html}</div>'
         f'</div>'
     )
@@ -297,7 +418,15 @@ def generate_html(
 <body>
 <header>
   <h1>&#x1F6E1; CyberHealthGuard</h1>
-  <span>Security Intelligence Dashboard &nbsp;|&nbsp; Generated {now}</span>
+  <span class="header-meta">
+    <span data-en="Security Intelligence Dashboard" data-fr="Tableau de Bord Sécurité">Security Intelligence Dashboard</span>
+    &nbsp;|&nbsp;
+    <span data-en="Generated" data-fr="Généré le">Generated</span> {now}
+  </span>
+  <div class="lang-toggle">
+    <button id="btn-en" class="lang-btn active" onclick="setLang('en')">EN</button>
+    <button id="btn-fr" class="lang-btn" onclick="setLang('fr')">FR</button>
+  </div>
 </header>
 <div class="container">
   <div class="cards">{cards_html}</div>
@@ -306,6 +435,7 @@ def generate_html(
   {exp_html}
   {pipeline_html}
 </div>
+<script>{_JS}</script>
 </body>
 </html>"""
 
