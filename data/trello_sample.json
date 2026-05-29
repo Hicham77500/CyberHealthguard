@@ -135,7 +135,7 @@
       "idShort": 29,
       "shortLink": "chg029",
       "name": "CHG-029 — NIS2 / PGSSI-S Incident Reporter",
-      "desc": "Rapport d'incident structuré NIS2 Art.23 : champs obligatoires ANSSI, SHA-256, export JSON + HTML. Délais 24h/72h automatiques.\nhttps://github.com/Hicham77500/CyberHealthguard/commit/TBD",
+      "desc": "Rapport d'incident structuré NIS2 Art.23 : champs obligatoires ANSSI, SHA-256, export JSON + HTML. Délais 24h/72h automatiques.\nhttps://github.com/Hicham77500/CyberHealthguard/commit/3180fb1",
       "due": "2026-05-29T20:00:00.000Z",
       "dueComplete": true,
       "idList": "list_done",
@@ -143,14 +143,14 @@
       "idMembers": ["member_alice"],
       "labels": [{"name": "Compliance"}, {"name": "Sprint-5"}],
       "attachments": [
-        {"url": "https://github.com/Hicham77500/CyberHealthguard/commit/TBD", "name": "Commit"}
+        {"url": "https://github.com/Hicham77500/CyberHealthguard/commit/3180fb1", "name": "Commit"}
       ]
     },
     {
       "idShort": 30,
       "shortLink": "chg030",
       "name": "CHG-030 — Audit Trail SHA-256 (append-only)",
-      "desc": "Piste d'audit immuable JSONL chaîné SHA-256. Mapping PGSSI-S v2. Vérification intégrité chaîne. Export HTML.\nhttps://github.com/Hicham77500/CyberHealthguard/commit/TBD",
+      "desc": "Piste d'audit immuable JSONL chaîné SHA-256. Mapping PGSSI-S v2. Vérification intégrité chaîne. Export HTML.\nhttps://github.com/Hicham77500/CyberHealthguard/commit/3180fb1",
       "due": "2026-05-29T20:00:00.000Z",
       "dueComplete": true,
       "idList": "list_done",
@@ -158,7 +158,7 @@
       "idMembers": ["member_alice"],
       "labels": [{"name": "Compliance"}, {"name": "Sprint-5"}],
       "attachments": [
-        {"url": "https://github.com/Hicham77500/CyberHealthguard/commit/TBD", "name": "Commit"}
+        {"url": "https://github.com/Hicham77500/CyberHealthguard/commit/3180fb1", "name": "Commit"}
       ]
     },
     {
