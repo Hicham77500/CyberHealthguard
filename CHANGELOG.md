@@ -4,6 +4,12 @@ Format suivant [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/) et SemVe
 
 ## [Unreleased]
 ### Ajouté
+- `src/compliance/nis2_reporter.py` (CHG-029) : rapport d'incident NIS2 Art.23 — champs obligatoires ANSSI/CERT Santé, classification Significant/Non-significant, délais 24h/72h automatiques, mapping PGSSI-S, export JSON + HTML PDF-ready, signature SHA-256.
+- `src/compliance/audit_trail.py` (CHG-030) : piste d'audit append-only JSONL chainé SHA-256 (tamper-evident). Vérification d'intégrité de la chaîne, mapping PGSSI-S v2, export HTML, CLI avec sous-commandes `log`/`verify`/`export`/`stats`.
+- `tests/test_nis2_reporter.py` : 22 tests (build_report, sign_report, HTML, intégration fichier).
+- `tests/test_audit_trail.py` : 17 tests (log, chaîne, tampering, verify, stats).
+- `scripts/run_pipeline.py` : étendu à 9 étapes (+ NIS2 Report step 8 + Audit Trail step 9). Nouveaux args `--org` et `--contact`.
+- **Total tests** : 106/106 verts en 0.65 s.
 - `src/reporting/report_generator.py` (CHG-027) : dashboard HTML auto-généré (dark navy theme, inline CSS), 4 stat cards (Events/Alerts/Critical/AUC-ROC), barres de distribution des risques, top-20 alertes, historique d'expériences, statut des 7 étapes pipeline.
 - `scripts/run_pipeline.py` : orchestrateur pipeline complet 7 étapes avec affichage coloré ✅/❌, temps d'exécution, génération automatique du dashboard. Exécution de bout en bout en < 0.5 s sur 12 000 événements.
 - `tests/test_alert_manager.py` (CHG-028) : 14 tests pour `_infer_alert_type` (6 types + priorités) et `generate_alerts` (threshold, tri, structure, edge cases).

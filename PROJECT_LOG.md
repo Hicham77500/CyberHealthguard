@@ -28,4 +28,7 @@ Tracer toutes les décisions produit/sécurité/tech. Ajouter une ligne par déc
 | 2026-05-30 | src/reporting/report_generator.py | CHG-027 — Dashboard HTML auto-généré (dark theme, inline CSS, 7 sections) | Adopté |
 | 2026-05-30 | scripts/run_pipeline.py | Orchestrateur pipeline 7 étapes — validation → features → ML → scoring → alertes → tracking → dashboard | Adopté |
 | 2026-05-30 | requirements.txt | Ajout pytest>=8.0.0 | Adopté |
-| 2026-05-30 | data/trello_sample.json | CHG-027 + CHG-028 déplacés en list_done | Adopté |
+| 2026-05-30 | data/trello_sample.json | CHG-027 + CHG-028 déplacés en list_done | Adopté || 2026-05-29 | src/compliance/nis2_reporter.py | CHG-029 — Rapport NIS2 Art.23 + PGSSI-S + SHA-256 | Adopté |
+| 2026-05-29 | src/compliance/audit_trail.py | CHG-030 — Piste d'audit immuable JSONL chainé SHA-256 | Adopté |
+| 2026-05-29 | scripts/run_pipeline.py | Pipeline étendu à 9 étapes (+ NIS2 + Audit Trail) | Adopté |
+| 2026-05-29 | data/trello_sample.json | Ajout CHG-029 + CHG-030 en list_done (Sprint 5) | Adopté |

@@ -1,12 +1,22 @@
 """Pipeline orchestrator — CyberHealthGuard control interface.
 
-Chains all 7 pipeline steps end-to-end and generates an HTML dashboard.
+Chains all 9 pipeline steps end-to-end:
+  1. Dataset Validation
+  2. Feature Engineering
+  3. IsolationForest
+  4. Risk Scoring
+  5. Alert Generation
+  6. Experiment Tracking
+  7. Dashboard Report
+  8. NIS2 Incident Report (CHG-029)
+  9. Audit Trail (CHG-030)
 
 Usage
 -----
     python scripts/run_pipeline.py --input data/logs/cyber_logs_*.json
     python scripts/run_pipeline.py --input data/logs/cyber_logs_20260309_160310.json \\
-        --threshold 51.0 --anomaly-threshold 0.75
+        --threshold 51.0 --anomaly-threshold 0.75 \\
+        --org "CHU Exemple" --contact "rssi@chu.fr"
 """
 from __future__ import annotations
 
@@ -27,6 +37,8 @@ from src.scoring.risk_scoring import compute_scores, summary as risk_summary_fn
 from src.alerts.alert_manager import generate_alerts
 from src.tracking.experiment_tracker import record_run
 from src.reporting.report_generator import generate_report
+from src.compliance.nis2_reporter import generate_report as generate_nis2_report
+from src.compliance.audit_trail import AuditTrail
 
 import json
 import pandas as pd
@@ -48,13 +60,20 @@ def _sep() -> None:
     print(f"{_MUTED}{'━' * 60}{_RESET}")
 
 
+_N_STEPS = 9
+
+
 def _step_ok(n: int, name: str, detail: str, elapsed: float) -> None:
-    print(f"  {_GREEN}✅{_RESET} [{n}/7] {_BOLD}{name}{_RESET}  "
+    print(f"  {_GREEN}✅{_RESET} [{n}/{_N_STEPS}] {_BOLD}{name}{_RESET}  "
           f"{_MUTED}{detail}  ({elapsed:.2f}s){_RESET}")
 
 
 def _step_err(n: int, name: str, err: str) -> None:
-    print(f"  {_RED}❌{_RESET} [{n}/7] {_BOLD}{name}{_RESET}  {_RED}{err}{_RESET}")
+    print(f"  {_RED}❌{_RESET} [{n}/{_N_STEPS}] {_BOLD}{name}{_RESET}  {_RED}{err}{_RESET}")
+
+
+def _step_skip(n: int, name: str, reason: str) -> None:
+    print(f"  {_YELLOW}⏭{_RESET}  [{n}/{_N_STEPS}] {name} skipped ({reason})")
 
 
 def _header(input_path: Path, threshold: float) -> None:
@@ -126,6 +145,49 @@ def _step7_report(artifacts_dir: Path) -> Path:
     return generate_report(artifacts_dir)
 
 
+def _step8_nis2(
+    alerts_path: Path,
+    artifacts_dir: Path,
+    org_name: str,
+    contact_email: str,
+    run_id: str,
+) -> tuple[Path, Path]:
+    return generate_nis2_report(
+        alerts_path=alerts_path,
+        output_dir=artifacts_dir,
+        org_name=org_name,
+        contact_email=contact_email,
+        pipeline_run_id=run_id,
+    )
+
+
+def _step9_audit(
+    trail: AuditTrail,
+    run: dict,
+    total_alerts: int,
+    nis2_json: Path,
+) -> None:
+    metrics = run.get("metrics", {})
+    trail.log(
+        event_type="pipeline_run",
+        actor="pipeline",
+        action="Full 9-step pipeline executed successfully",
+        object_ref=str(nis2_json.parent),
+        metadata={
+            "run_id":        run.get("run_id", ""),
+            "auc_roc":       metrics.get("auc_roc", 0),
+            "total_alerts":  total_alerts,
+            "nis2_report":   nis2_json.name,
+        },
+    )
+    trail.log(
+        event_type="incident_report",
+        actor="pipeline",
+        action="NIS2 incident report generated",
+        object_ref=str(nis2_json),
+    )
+
+
 # ---------------------------------------------------------------------------
 # Main orchestrator
 # ---------------------------------------------------------------------------
@@ -135,6 +197,8 @@ def run_pipeline(
     threshold: float = 51.0,
     anomaly_threshold: float = 0.75,
     no_report: bool = False,
+    org_name: str = "Organisation non renseignée",
+    contact_email: str = "rssi@organisation.fr",
 ) -> int:
     """Run the full CyberHealthGuard pipeline.
 
@@ -226,23 +290,53 @@ def run_pipeline(
         _step_err(6, "Experiment Tracking", str(exc))
         return 1
 
+    run_id = run.get("run_id", "N/A")
+
     # ── Step 7 — Dashboard ───────────────────────────────────────────────────
     if no_report:
-        print(f"  {_YELLOW}⏭{_RESET}  [7/7] Dashboard skipped (--no-report)")
+        _step_skip(7, "Dashboard Report", "--no-report")
     else:
         t0 = time.perf_counter()
         try:
             dash_path = _step7_report(artifacts_dir)
-            _step_ok(7, "Dashboard Report", str(dash_path), time.perf_counter() - t0)
+            _step_ok(7, "Dashboard Report", str(dash_path.name), time.perf_counter() - t0)
         except Exception as exc:  # noqa: BLE001
             _step_err(7, "Dashboard Report", str(exc))
             return 1
+
+    # ── Step 8 — NIS2 Incident Report ────────────────────────────────────────
+    t0 = time.perf_counter()
+    try:
+        nis2_json, nis2_html = _step8_nis2(
+            alerts_path, artifacts_dir, org_name, contact_email, run_id
+        )
+        _step_ok(8, "NIS2 Incident Report",
+                 f"{nis2_json.name} + HTML — SHA-256 signed",
+                 time.perf_counter() - t0)
+    except Exception as exc:  # noqa: BLE001
+        _step_err(8, "NIS2 Incident Report", str(exc))
+        return 1
+
+    # ── Step 9 — Audit Trail ─────────────────────────────────────────────────
+    t0 = time.perf_counter()
+    try:
+        trail = AuditTrail(artifacts_dir / "audit_trail.jsonl")
+        _step9_audit(trail, run, len(alerts), nis2_json)
+        s = trail.stats()
+        _step_ok(9, "Audit Trail",
+                 f"Entry #{s['total_entries']} — chain {'intact ✓' if s['chain_intact'] else 'BROKEN ✗'}",
+                 time.perf_counter() - t0)
+    except Exception as exc:  # noqa: BLE001
+        _step_err(9, "Audit Trail", str(exc))
+        return 1
 
     _sep()
     elapsed = time.perf_counter() - t_global
     print(f"  {_GREEN}{_BOLD}Pipeline completed in {elapsed:.2f}s{_RESET}")
     if not no_report:
-        print(f"  Dashboard → {artifacts_dir / 'dashboard.html'}")
+        print(f"  Dashboard      → {artifacts_dir / 'dashboard.html'}")
+    print(f"  NIS2 Report    → {nis2_html}")
+    print(f"  Audit Trail    → {artifacts_dir / 'audit_trail.jsonl'}")
     print()
     return 0
 
@@ -271,6 +365,14 @@ def main() -> int:
         "--no-report", action="store_true",
         help="Skip HTML dashboard generation",
     )
+    parser.add_argument(
+        "--org", default="Organisation non renseignée",
+        help="Organisation name for NIS2 report",
+    )
+    parser.add_argument(
+        "--contact", default="rssi@organisation.fr",
+        help="RSSI contact email for NIS2 report",
+    )
     args = parser.parse_args()
 
     input_path = Path(args.input).resolve()
@@ -282,6 +384,8 @@ def main() -> int:
         threshold=args.threshold,
         anomaly_threshold=args.anomaly_threshold,
         no_report=args.no_report,
+        org_name=args.org,
+        contact_email=args.contact,
     )
 
 

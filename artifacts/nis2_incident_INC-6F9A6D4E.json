@@ -1,0 +1,111 @@
+{
+  "incident_id": "INC-6F9A6D4E",
+  "report_version": "1.0",
+  "generated_at": "2026-05-29T13:39:30+00:00",
+  "reporting_framework": [
+    "NIS2 Art.23",
+    "PGSSI-S v2",
+    "CERT Santé"
+  ],
+  "organisation": {
+    "name": "CHU CyberHealthGuard Demo",
+    "sector": "Santé / Médico-social",
+    "contact_email": "rssi@chu-demo.fr",
+    "notify_to": [
+      "cert-sante@esante.gouv.fr",
+      "cert@ssi.gouv.fr"
+    ]
+  },
+  "incident": {
+    "nis2_severity": "Significant",
+    "impact_description": "Majeur — interruption ou compromission significative probable",
+    "detected_at": "2026-05-29T13:39:30+00:00",
+    "detection_method": "Automated ML pipeline — IsolationForest + Risk Scoring",
+    "pipeline_run_id": "RUN-19A1C733",
+    "alert_types_triggered": [
+      "anomalous_activity",
+      "mass_data_exfiltration",
+      "off_hours_patient_access",
+      "privilege_abuse",
+      "repeated_login_failure",
+      "suspicious_network_activity"
+    ],
+    "total_alerts": 1598,
+    "critical_count": 9,
+    "high_count": 1589,
+    "max_risk_score": 84.7
+  },
+  "affected_data": {
+    "categories": [
+      "Données d'authentification",
+      "Données de santé (DMP / DSP)",
+      "Données de trafic réseau",
+      "Journaux d'activité (logs)"
+    ],
+    "personal_data": true,
+    "health_data": true,
+    "estimated_subjects": "Indéterminé — investigation en cours",
+    "hds_scope": true
+  },
+  "pgssi_s_controls": [
+    "PGSSI-S 10.3 — Protection contre la fuite de données",
+    "PGSSI-S 11.1 — Sécurité des réseaux",
+    "PGSSI-S 12.4 — Surveillance et détection",
+    "PGSSI-S 9.1 — Contrôle d'accès aux données de santé",
+    "PGSSI-S 9.2 — Gestion des privilèges",
+    "PGSSI-S 9.3 — Authentification et traçabilité"
+  ],
+  "nis2_deadlines": {
+    "early_warning_deadline": "2026-05-30T13:39:30+00:00",
+    "initial_report_deadline": "2026-06-01T13:39:30+00:00",
+    "note": "Early warning must reach ANSSI/CERT Santé within 24h of detection."
+  },
+  "containment_measures": [
+    "Isolation des comptes utilisateurs impliqués dans les alertes Critical",
+    "Révocation des sessions actives pour les comptes à risque élevé",
+    "Activation du plan de réponse aux incidents (PRI)",
+    "Notification de la DPO et du RSSI",
+    "Préservation des preuves (logs figés en lecture seule)",
+    "Scan antiviral sur les postes concernés"
+  ],
+  "evidence": [
+    {
+      "alert_id": "ALT-11DC21AA",
+      "alert_type": "off_hours_patient_access",
+      "severity": "Critical",
+      "risk_score": 84.7,
+      "timestamp": "2026-05-29T13:39:30.374692+00:00"
+    },
+    {
+      "alert_id": "ALT-1EDBCC29",
+      "alert_type": "off_hours_patient_access",
+      "severity": "Critical",
+      "risk_score": 84.7,
+      "timestamp": "2026-05-29T13:39:30.374692+00:00"
+    },
+    {
+      "alert_id": "ALT-A1CB381E",
+      "alert_type": "off_hours_patient_access",
+      "severity": "Critical",
+      "risk_score": 84.7,
+      "timestamp": "2026-05-29T13:39:30.374692+00:00"
+    },
+    {
+      "alert_id": "ALT-CE2B33F5",
+      "alert_type": "off_hours_patient_access",
+      "severity": "Critical",
+      "risk_score": 84.7,
+      "timestamp": "2026-05-29T13:39:30.374692+00:00"
+    },
+    {
+      "alert_id": "ALT-3BFA676D",
+      "alert_type": "off_hours_patient_access",
+      "severity": "Critical",
+      "risk_score": 81.3,
+      "timestamp": "2026-05-29T13:39:30.374692+00:00"
+    }
+  ],
+  "integrity": {
+    "sha256": "4dd736b79624bfcec9b4958978acdf1bc27cd9c77f191e3d9cac62c65aa535f1"
+  }
+}
