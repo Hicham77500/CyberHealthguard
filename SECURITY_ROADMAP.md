@@ -14,6 +14,7 @@
 | Sprint 2 | CHG-022 Validator + CHG-023 Feature Engineering | ✅ Terminé — commit `08eaedf` |
 | Sprint 3 | CHG-024 Risk Scoring + CHG-025 Alert Manager + CHG-026 Experiment Tracker | ✅ Terminé — commit `967e412` |
 | Sprint 4 | CHG-027 Dashboard HTML bilingue + CHG-028 Tests pytest 67/67 + `run_pipeline.py` | ✅ Terminé — commit `ce23938` |
+| Sprint 5 | CHG-029 NIS2 Reporter + CHG-030 Audit Trail SHA-256 | ✅ Terminé — commit `3180fb1` |
 
 ---
 
@@ -27,7 +28,8 @@
 | `src/ml/anomaly_demo.py` | IsolationForest (contamination=0.08) | AUC-ROC = 0.8057 atteint |
 | `src/scoring/risk_scoring.py` | Score composite 0-100 | 4 niveaux : Low/Medium/High/Critical |
 | `src/alerts/alert_manager.py` | Génère des alertes JSON structurées | 6 types d'alertes, tri par score |
-| `src/tracking/experiment_tracker.py` | Suivi JSONL des runs ML | precision/recall/F1/AUC-ROC |
+| `src/compliance/nis2_reporter.py` | Rapport NIS2 Art.23 + PGSSI-S | SHA-256 signé, export JSON + HTML, délais 24h/72h |
+| `src/compliance/audit_trail.py` | Piste d'audit immuable JSONL SHA-256 | Chaîne vérifiable, mapping PGSSI-S, CLI verify/export |
 | `src/reporting/report_generator.py` | Dashboard HTML bilingue EN/FR | dark theme, localStorage lang preference |
 | `scripts/run_pipeline.py` | Orchestrateur 7 étapes | < 0.5 s sur 12 000 événements |
 
@@ -45,7 +47,7 @@
 
 ## Roadmap sécurité — Menaces médico-social
 
-### 🔴 Sprint 5 — Conformité réglementaire (PRIORITÉ 1)
+### 🔴 Sprint 5 — Conformité réglementaire ✅ TERMINÉ
 
 > **Pourquoi en premier** : NIS2 (applicable depuis oct. 2024) oblige la notification à l'ANSSI sous **24h**. Sans rapport structuré, tout le pipeline est inutilisable en production réelle.
 
@@ -58,7 +60,7 @@
 
 ---
 
-### 🔴 Sprint 6 — Détection avancée des menaces (PRIORITÉ 2)
+### 🔴 Sprint 6 — Détection avancée des menaces (PRIORITÉ SUIVANTE)
 
 | Ticket | Livrable | Description |
 |--------|----------|-------------|
