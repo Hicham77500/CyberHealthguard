@@ -1,8 +1,13 @@
 """Demo IsolationForest sur logs applicatifs anonymisés.
 
 Usage:
-    python src/ml/anomaly_demo.py --generate > artifacts/anomaly_report.json
-    python src/ml/anomaly_demo.py --input data/logs.csv --threshold 0.65
+    python src/ml/anomaly_demo.py --generate
+    python src/ml/anomaly_demo.py --input artifacts/features.csv --threshold 0.65
+
+Pipeline complet (logs réels) :
+    python src/validator/dataset_validator.py --input data/logs/cyber_logs_*.json
+    python src/features/feature_engineering.py --input data/logs/cyber_logs_*.json
+    python src/ml/anomaly_demo.py --input artifacts/features.csv
 """
 from __future__ import annotations
 
@@ -17,11 +22,17 @@ from sklearn.ensemble import IsolationForest
 
 ARTIFACTS_DIR = Path("artifacts")
 DEFAULT_THRESHOLD = 0.7
+_LABEL_COLS = frozenset({"is_anomaly", "label", "anomaly_score"})
+
+
+def _feature_cols(df: pd.DataFrame) -> List[str]:
+    """Auto-detect numeric feature columns, excluding label columns."""
+    return [c for c in df.select_dtypes(include="number").columns if c not in _LABEL_COLS]
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="IsolationForest quickstart")
-    parser.add_argument("--input", type=Path, help="CSV des logs (colonnes bytes_in, bytes_out, status, latency_ms)")
+    parser.add_argument("--input", type=Path, help="CSV des logs (synthétique ou issu de feature_engineering.py)")
     parser.add_argument("--generate", action="store_true", help="Génère un dataset synthétique")
     parser.add_argument("--threshold", type=float, default=DEFAULT_THRESHOLD, help="Score (0-1) au-delà duquel on alerte")
     parser.add_argument("--limit", type=int, default=20, help="Nombre max d'anomalies à afficher")
@@ -61,14 +72,15 @@ def load_dataset(args: argparse.Namespace) -> pd.DataFrame:
 
 
 def train_model(df: pd.DataFrame) -> IsolationForest:
-    features = df[["bytes_in", "bytes_out", "status", "latency_ms"]]
+    features = df[_feature_cols(df)]
     model = IsolationForest(random_state=42, contamination=0.08)
     model.fit(features)
     return model
 
 
 def score_events(model: IsolationForest, df: pd.DataFrame, threshold: float) -> List[Dict[str, Any]]:
-    features = df[["bytes_in", "bytes_out", "status", "latency_ms"]]
+    cols = _feature_cols(df)
+    features = df[cols]
     raw_scores = model.decision_function(features)
     normalized = (raw_scores - raw_scores.min()) / (raw_scores.max() - raw_scores.min() or 1)
     df = df.copy()
@@ -79,15 +91,11 @@ def score_events(model: IsolationForest, df: pd.DataFrame, threshold: float) -> 
         score = float(row["anomaly_score"])
         if score < threshold:
             break
-        findings.append(
-            {
-                "bytes_in": float(row["bytes_in"]),
-                "bytes_out": float(row["bytes_out"]),
-                "status": int(row["status"]),
-                "latency_ms": float(row["latency_ms"]),
-                "score": round(score, 3),
-            }
-        )
+        entry: Dict[str, Any] = {"score": round(score, 3)}
+        for col in cols:
+            val = row[col]
+            entry[col] = float(val) if isinstance(val, float) else int(val)
+        findings.append(entry)
     return findings
 
 
@@ -109,10 +117,8 @@ def main() -> int:
     else:
         print(f"⚠️  {len(events)} anomalies détectées (top {min(len(events), args.limit)} affichées):")
         for event in events[: args.limit]:
-            print(
-                f" - status={event['status']} bytes_in={event['bytes_in']:.0f} "
-                f"bytes_out={event['bytes_out']:.0f} latency={event['latency_ms']:.0f}ms score={event['score']}"
-            )
+            detail = " ".join(f"{k}={v}" for k, v in event.items() if k != "score")
+            print(f" - score={event['score']} | {detail}")
     report_path = save_report(events, args.threshold)
     print(f"Rapport → {report_path}")
     return 0
